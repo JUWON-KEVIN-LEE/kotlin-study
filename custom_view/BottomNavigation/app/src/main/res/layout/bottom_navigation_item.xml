@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_navigation_height"
+    android:layout_marginLeft="@dimen/bottom_navigation_item_internal_padding"
+    android:layout_marginRight="@dimen/bottom_navigation_item_internal_padding"
+    android:maxWidth="@dimen/bottom_navigation_item_max_width"
+    android:minWidth="@dimen/bottom_navigation_item_min_width"
+    android:animateLayoutChanges="true">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/bottom_navigation_icon_size"
+        android:layout_height="@dimen/bottom_navigation_icon_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/bottom_navigation_item_bottom_margin"
+        android:layout_marginTop="@dimen/bottom_navigation_inactive_item_top_margin"
+        android:animateLayoutChanges="true"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/bottom_navigation_item_bottom_margin"
+        android:alpha="1"
+        android:gravity="center"
+        android:lines="1"
+        android:text="Title One"
+        android:textSize="12sp"
+        android:animateLayoutChanges="true"/>
+
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="@dimen/bottom_navigation_notification_size"
+        android:layout_height="@dimen/bottom_navigation_notification_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/bottom_navigation_notification_margin_left"
+        android:layout_marginTop="@dimen/bottom_navigation_notification_margin_top"
+        android:alpha="0"
+        android:background="@drawable/notification_background"
+        android:elevation="@dimen/bottom_navigation_notification_elevation"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/bottom_navigation_notification_text_size"
+        android:textStyle="bold"
+        android:animateLayoutChanges="true"/>
+
+</FrameLayout>
