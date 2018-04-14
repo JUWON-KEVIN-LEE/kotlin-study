@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">NavMedia</string>
+
+    <string name="splash_title_first">원하는 동영상을 쉽게</string>
+    <string name="splash_title_second">다양한 고퀄리티 콘텐츠</string>
+    <string name="splash_title_third">함께 즐기는 라이브</string>
+    <string name="splash_title_fourth">편리한 제스처</string>
+
+    <string name="splash_detail_first">TOP100, 피드 라이브에서\n원하는 동영상을 쉽게 찾아보세요.</string>
+    <string name="splash_detail_second">웹드라마, 라이브, 방송 클립 등\n고퀄리티 콘텐츠를 앱에서 만나보세요.</string>
+    <string name="splash_detail_third">새롭게 바뀐 라이브에서\n실시간 채팅과 무한 좋아요를 만나보세요.</string>
+    <string name="splash_detail_fourth">밝기, 볼륨, 구간 이동을 손가락 하나로\n편리하게 조절해보세요.</string>
+</resources>

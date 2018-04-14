@@ -1,0 +1,12 @@
+
+ext.deps = [:]
+def versions = [:]
+versions.kotlin_version = "1.2.21"
+versions.support = "26.1.0"
+
+def support = [:]
+support.app_compat = "com.android.support:appcompat-v7:$versions.support"
+support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
+
+
+ext.deps = deps

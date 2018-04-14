@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.juwon_lee.navmedia.ui.splash.SplashActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:animateLayoutChanges="true"
+        android:paddingBottom="@dimen/regular_space"
+        android:paddingTop="@dimen/regular_space">
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:lines="1"
+            android:paddingBottom="@dimen/double_space"
+            android:paddingTop="@dimen/double_space"
+            android:text="@string/splash_title_first"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/title_text_size" />
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/summary"
+            android:layout_marginBottom="@dimen/double_space"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/detail_line_spacing_extra"
+            android:lines="2"
+            android:text="@string/splash_detail_first"
+            android:textColor="@color/Grey"
+            android:textSize="@dimen/detail_text_size" />
+
+        <com.juwon_lee.navmedia.view.indicator.NPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/detail"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/double_space"
+            android:paddingLeft="@dimen/double_space"
+            android:paddingRight="@dimen/double_space"
+            android:paddingTop="@dimen/double_space"
+            android:paddingBottom="@dimen/double_space" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Splash Activity -->
+    <!-- .xml -->
+    <dimen name="regular_space">8dp</dimen>
+    <dimen name="double_space">16dp</dimen>
+
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="detail_text_size">16sp</dimen>
+    <dimen name="detail_line_spacing_extra">4sp</dimen>
+    <!-- Indicator -->
+    <dimen name="indicator_radius">4dp</dimen>
+    <dimen name="current_indicator_radius">6dp</dimen>
+</resources>
