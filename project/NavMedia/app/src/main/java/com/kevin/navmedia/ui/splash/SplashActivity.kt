@@ -6,8 +6,8 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.kevin.navmedia.R
-import com.kevin.navmedia.ui.main.MainActivity
 import com.kevin.navmedia.ui.main.adapter.ViewPagerAdapter
+import com.kevin.navmedia.ui.video.VideoActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
@@ -43,8 +43,10 @@ class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         viewPager.addOnPageChangeListener(this)
         indicator.setViewPager(viewPager)
 
-        start.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
-
+        start.setOnClickListener {
+            startActivity(Intent(this, VideoActivity::class.java))
+            finish()
+        }
     }
 
     private fun setCurrentItem(position: Int) {

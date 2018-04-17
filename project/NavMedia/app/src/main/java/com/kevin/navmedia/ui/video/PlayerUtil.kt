@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import com.google.android.exoplayer2.ui.PlayerView
 
 /**
- * Created by quf93 on 2018-04-16.
  * 코틀린에는 정적(Static) 변수 혹은 메소드가 없고,대신 패키지 내에 함수를 선언하여 사용할 수 있습니다.
  * 또는 companion object 를 사용할 수도 있습니다.
+ * Created by quf93 on 2018-04-16.
  */
-
 class PlayerUtil {
     companion object {
         /**

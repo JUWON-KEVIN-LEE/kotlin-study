@@ -18,7 +18,7 @@
 
     <!-- Main Activity -->
     <!-- Top100 .xml -->
-    <dimen name="video_thumbnail_height">220dp</dimen>
+    <dimen name="video_thumbnail_height">240dp</dimen>
     <dimen name="rank_text_size">22sp</dimen>
     <dimen name="title_size">18sp</dimen>
 </resources>
