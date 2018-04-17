@@ -90,7 +90,7 @@ override fun onStop() {
 }
 ```
 
-### classes
+### Classes
 
 **BandwidthMeter** : Estimates bandwidth by listening to data transfers.
 

@@ -29,22 +29,6 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun initPlayer() {
-        /**
-         * [ DefaultBandwidthMeter ] : Estimates bandwidth by listening to data transfers.
-         *
-         * [ DefaultExtractorsFactory ] : that provides an array of extractors for the following formats
-         *
-         * [ AdaptiveTrackSelection ]
-         * : A bandwidth based adaptive {@link TrackSelection}, whose selected track is updated to be the one
-         * of highest quality given the current network conditions and the state of the buffer.
-         *
-         * [ DefaultDataSourceFactory ]
-         * * A {@link Factory} that produces {@link DefaultDataSource} instances that delegate to
-         * {@link DefaultHttpDataSource}s for non-file/asset/content URIs.
-         *
-         * [ ExtractorMediaSource ]
-         * Provides one period that loads data from a {@link Uri} and extracted using an {@link Extractor}.
-         */
         val bandwidthMeter = DefaultBandwidthMeter()
         val extractorsFactory = DefaultExtractorsFactory()
         val trackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
