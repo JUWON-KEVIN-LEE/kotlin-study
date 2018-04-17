@@ -8,6 +8,10 @@
     <color name="Active">#00BFFF</color>
     <color name="Inactive">#D3D3D3</color>
 
+    <!-- item_top100 -->
+    <color name="colorProgram">#1E90FF</color>
+    <color name="colorTime">#64000000</color>
+
      <!-- color set -->
     <color name="Grey">#979797</color>
     <color name="White">#FFFFFF</color>

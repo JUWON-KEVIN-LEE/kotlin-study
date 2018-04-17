@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_thumbnail_height">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Inactive"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ntv_logo" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:background="@color/colorTime"
+            android:paddingBottom="@dimen/micro_double_space"
+            android:paddingLeft="@dimen/regular_space"
+            android:paddingRight="@dimen/regular_space"
+            android:paddingTop="@dimen/micro_double_space"
+            android:text="3:46"
+            android:textColor="@color/White" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/triple_space">
+
+        <LinearLayout
+            android:id="@+id/rankContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/double_space"
+            android:layout_marginTop="@dimen/regular_space"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="12"
+                android:textColor="@color/Black"
+                android:textSize="@dimen/rank_text_size" />
+
+            <TextView
+                android:id="@+id/rankVar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="new"
+                android:textColor="@color/Red"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rankContainer"
+            android:layout_marginLeft="@dimen/double_space"
+            android:layout_marginTop="@dimen/micro_space"
+            android:layout_toRightOf="@+id/rankContainer"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/test_title"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/program"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rankContainer"
+            android:layout_alignLeft="@+id/title"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="이불 밖은 위험해"
+            android:textColor="@color/colorProgram" />
+    </RelativeLayout>
+</LinearLayout>

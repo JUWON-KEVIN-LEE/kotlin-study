@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.juwon_lee.navmedia.ui.splash.SplashActivity">
+    tools:context="com.kevin.navmedia.ui.splash.SplashActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
@@ -14,6 +14,7 @@
         android:layout_weight="6" />
 
     <RelativeLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
@@ -26,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/double_space"
             android:gravity="center"
             android:lines="1"
             android:paddingBottom="@dimen/double_space"
@@ -47,7 +49,7 @@
             android:textColor="@color/Grey"
             android:textSize="@dimen/detail_text_size" />
 
-        <com.juwon_lee.navmedia.view.indicator.NPageIndicator
+        <com.kevin.navmedia.view.indicator.NPageIndicator
             android:id="@+id/indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,9 +57,22 @@
             android:layout_below="@+id/detail"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/double_space"
+            android:paddingBottom="@dimen/double_space"
             android:paddingLeft="@dimen/double_space"
             android:paddingRight="@dimen/double_space"
+            android:paddingTop="@dimen/double_space" />
+
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/indicator"
+            android:layout_centerHorizontal="true"
+            android:text="@string/splash_start"
+            android:textColor="@color/Active"
+            android:textSize="@dimen/detail_text_size"
+            android:textStyle="bold"
             android:paddingTop="@dimen/double_space"
-            android:paddingBottom="@dimen/double_space" />
+            android:visibility="gone"/>
     </RelativeLayout>
 </LinearLayout>
