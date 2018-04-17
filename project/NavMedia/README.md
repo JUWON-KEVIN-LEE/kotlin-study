@@ -29,7 +29,7 @@ Retrofit2
 
 ExoPlayer2 (Google Media Framework Library)
 
-#### init player
+### init player
 
 ```kotlin
 private fun initPlayer() {
@@ -57,9 +57,7 @@ private fun initPlayer() {
 }
 ```
 
-<br>
-
-#### release player
+### release player
 
 ```kotlin
 private fun releasePlayer() {
@@ -68,9 +66,7 @@ private fun releasePlayer() {
 }
 ```
 
-<br>
-
-#### Util
+### Util
 
 ```kotlin
 override fun onStart() {
@@ -94,9 +90,7 @@ override fun onStop() {
 }
 ```
 
-<br>
-
-#### classes
+### classes
 
 **BandwidthMeter** : Estimates bandwidth by listening to data transfers.
 
