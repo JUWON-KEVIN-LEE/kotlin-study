@@ -29,7 +29,7 @@ Retrofit2
 
 ExoPlayer2 (Google Media Framework Library)
 
-**init player**
+#### init player
 
 ```kotlin
 private fun initPlayer() {
@@ -59,7 +59,7 @@ private fun initPlayer() {
 
 <br>
 
-**release player**
+#### release player
 
 ```kotlin
 private fun releasePlayer() {
@@ -70,7 +70,7 @@ private fun releasePlayer() {
 
 <br>
 
-**Util (ExoPlayer)**
+#### Util
 
 ```kotlin
 override fun onStart() {
@@ -96,15 +96,16 @@ override fun onStop() {
 
 <br>
 
-BandwidthMeter : Estimates bandwidth by listening to data transfers.
+#### classes
 
-ExtractorsFactory : Provides an array of extractors for the following formats.
+**BandwidthMeter** : Estimates bandwidth by listening to data transfers.
+
+**ExtractorsFactory** : Provides an array of extractors for the following formats.
 
 ![formats](https://github.com/JUWON-KEVIN-LEE/kotlin-study/blob/master/project/NavMedia/images/formats.png)
 
-AdaptiveTrackSelection : A bandwidth based adaptive **TrackSelection**, whose selected track is updated to be the one of highest quality given the current network conditions and the state of the buffer.
+**AdaptiveTrackSelection** : A bandwidth based adaptive **TrackSelection**, whose selected track is updated to be the one of highest quality given the current network conditions and the state of the buffer.
 
-DataSourceFactory : Produces **DataSource** instances that delegate to HttpDataSources for non-file/asset/content URIs.
+**DataSourceFactory** : Produces **DataSource** instances that delegate to HttpDataSources for non-file/asset/content URIs.
 
-ExtractorMediaSource : Provides one period that loads data from a Uri and extracted using an **Extractor**.
-
+**ExtractorMediaSource** : Provides one period that loads data from a Uri and extracted using an **Extractor**.
