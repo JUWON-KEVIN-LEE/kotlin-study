@@ -6,22 +6,20 @@ Naver TV App 카피 프로젝트
 
 ### 1.
 
-AAC(Android Architecture Component)
+Key features : 
 
-- Room
-- LiveData
-- ViewModel
-- PagingLibrary
-
-ExoPlayer2 
-
-ReactiveX Java2 + Android
-
-Dagger2
-
-Glide
-
-Retrofit2
+- Kotlin
+- MVVM, Repository Pattern
+- AAC(Android Architecture Components)
+  - Room
+  - LiveData
+  - ViewModel
+  - PagingLibrary
+- ExoPlayer2
+- ReactiveX Java2 + Android
+- Dagger2
+- Glide
+- Retrofit2
 
 <br>
 
