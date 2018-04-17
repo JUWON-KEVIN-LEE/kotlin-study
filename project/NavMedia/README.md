@@ -100,7 +100,7 @@ BandwidthMeter : Estimates bandwidth by listening to data transfers.
 
 ExtractorsFactory : Provides an array of extractors for the following formats.
 
-![formats](https://github.com/JUWON-KEVIN-LEE/images/formats.png)
+![formats](https://github.com/JUWON-KEVIN-LEE/kotlin-study/blob/master/project/NavMedia/images/formats.png)
 
 AdaptiveTrackSelection : A bandwidth based adaptive **TrackSelection**, whose selected track is updated to be the one of highest quality given the current network conditions and the state of the buffer.
 
