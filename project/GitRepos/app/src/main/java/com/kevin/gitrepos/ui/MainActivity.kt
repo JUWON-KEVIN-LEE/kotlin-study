@@ -19,7 +19,6 @@ import com.kevin.gitrepos.util.ResourcesWrapper
 import com.kevin.gitrepos.viewmodel.GitViewModelFactory
 import com.kevin.gitrepos.viewmodel.ReposViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_loading.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         input.setOnEditorActionListener{ _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH) {
                 refresh()
-
+                hideKeyboard()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -132,7 +131,7 @@ class MainActivity : AppCompatActivity() {
     private fun loading() {
         recyclerView.visibility = View.GONE
         none.visibility = View.GONE
-        loading.visibility = View.VISIBLE
+        progress.visibility = View.VISIBLE
     }
 
     /**
@@ -141,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     private fun error() {
         recyclerView.visibility = View.GONE
         none.visibility = View.GONE
-        loading.visibility = View.GONE
+        progress.visibility = View.GONE
 
         Toast.makeText(this, getString(R.string.error), Toast.LENGTH_LONG).show()
     }
@@ -152,13 +151,13 @@ class MainActivity : AppCompatActivity() {
     private fun empty() {
         recyclerView.visibility = View.GONE
         none.visibility = View.VISIBLE
-        loading.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 
     private fun success() {
         recyclerView.visibility = View.VISIBLE
         none.visibility = View.GONE
-        loading.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 
     /**

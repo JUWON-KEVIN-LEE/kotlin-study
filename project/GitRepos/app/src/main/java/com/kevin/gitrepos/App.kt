@@ -2,7 +2,6 @@ package com.kevin.gitrepos
 
 import android.app.Application
 import com.kevin.gitrepos.di.AppComponent
-import com.kevin.gitrepos.di.AppModule
 import com.kevin.gitrepos.di.DaggerAppComponent
 
 /**
@@ -10,13 +9,15 @@ import com.kevin.gitrepos.di.DaggerAppComponent
  */
 class App:Application() {
 
-    lateinit var component: AppComponent
+    val component: AppComponent by lazy {
+        DaggerAppComponent.builder()
+                .appModule(this)
+                .build()
+    }
 
     override fun onCreate() {
         super.onCreate()
 
-        component = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
+        component.inject(this)
     }
 }
