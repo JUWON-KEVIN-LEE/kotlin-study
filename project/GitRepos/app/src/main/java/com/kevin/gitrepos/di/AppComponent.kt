@@ -12,6 +12,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
+    // TODO DI 에 대해 다루기
     @Component.Builder
     interface Builder {
         @BindsInstance fun appModule(app: Application) : Builder

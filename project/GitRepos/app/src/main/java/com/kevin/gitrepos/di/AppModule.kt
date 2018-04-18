@@ -21,6 +21,7 @@ import javax.inject.Singleton
  */
 @Module class AppModule {
 
+    // TODO Error 에 대해 다루기
 //    @Singleton @Provides
 //    fun provideContext(): Context = app
 
