@@ -1,6 +1,8 @@
 # GitRepos
 ### 0.
-Github Repository Project
+Github Repository Project to study below features.
+
+Reference [Google-samples](https://github.com/googlesamples/android-architecture-components/tree/master/GithubBrowserSample)
 
 <br>
 
@@ -121,4 +123,3 @@ fun provideDB(app: Application): AppDatabase = Room
         .fallbackToDestructiveMigration()
         .build()
 ```
-
