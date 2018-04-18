@@ -26,13 +26,16 @@ class AppModule(private val app: Application) {
     fun provideContext(): Context = app
 
     @Singleton @Provides
+    fun provideGitReposRepository(appExecutors: AppExecutors, database: AppDatabase, service: GithubService):
+            GitReposRepository = GitReposRepository(appExecutors, database, service)
+
+    @Singleton @Provides
+    fun provideExecutors() : AppExecutors = AppExecutors()
+
+    @Singleton @Provides
     fun provideDB(context: Context): AppDatabase = Room
             .databaseBuilder(context, AppDatabase::class.java, "github.db")
             .build()
-
-    @Singleton @Provides
-    fun provideGitReposRepository(appExecutors: AppExecutors, database: AppDatabase, service: GithubService):
-            GitReposRepository = GitReposRepository(appExecutors, database, service)
 
     @Singleton @Provides
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
@@ -46,6 +49,5 @@ class AppModule(private val app: Application) {
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())
             .build().create(GithubService::class.java)
-
 
 }

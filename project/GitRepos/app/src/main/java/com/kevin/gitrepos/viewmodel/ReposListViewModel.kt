@@ -8,5 +8,4 @@ import com.kevin.gitrepos.data.repository.GitReposRepository
  */
 class ReposListViewModel(private val repository: GitReposRepository) : ViewModel() {
 
-
 }

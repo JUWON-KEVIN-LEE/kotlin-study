@@ -19,7 +19,8 @@ data class Repo(@Json(name = "id") @PrimaryKey val id: String,
                 @Json(name = "owner") @Embedded val owner: Owner,
                 @Json(name = "pushed_at") var pushed_at: String,
                 @Json(name = "created_at") val created_at: String,
-                @Json(name = "updated_at") val updated_at: String) {
+                @Json(name = "updated_at") val updated_at: String,
+                @Json(name = "last_inserted") var last_inserted: Long) {
 
     data class Owner(@Json(name = "login") val login: String,
                      @Json(name = "id") val id: Int,
