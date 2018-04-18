@@ -7,11 +7,11 @@ import com.kevin.gitrepos.data.repository.GitReposRepository
 /**
  * Created by quf93 on 2018-04-17.
  */
-class GithubViewModelFactory(private val repository: GitReposRepository): ViewModelProvider.Factory {
+class GitViewModelFactory(private val repository: GitReposRepository): ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(ReposListViewModel::class.java)) {
-            return ReposListViewModel(repository) as T
+        if(modelClass.isAssignableFrom(ReposViewModel::class.java)) {
+            return ReposViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
