@@ -20,4 +20,5 @@ class App:Application() {
 
         component.inject(this)
     }
+
 }

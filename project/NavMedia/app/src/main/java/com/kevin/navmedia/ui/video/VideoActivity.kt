@@ -3,12 +3,14 @@ package com.kevin.navmedia.ui.video
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.trackselection.TrackSelector
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -26,6 +28,24 @@ class VideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
+    }
+
+    private fun initPlayer(uriString: String) {
+        try {
+            val mediaSource = PlayerUtil.buildMediaSource(this,
+                    Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"))
+
+            playerView.requestFocus()
+            trackSelector = DefaultTrackSelector(trackSelectionFactory)
+
+            player = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
+
+            playerView.player = player
+            player.playWhenReady = autoPlay
+            player.prepare(mediaSource)
+        } catch (exception: IllegalArgumentException) {
+            Log.d(TAG, exception.toString())
+        }
     }
 
     private fun initPlayer() {
@@ -75,5 +95,9 @@ class VideoActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         if(Util.SDK_INT > 23) releasePlayer()
+    }
+
+    companion object {
+        const val TAG = "JUWONLEE"
     }
 }
