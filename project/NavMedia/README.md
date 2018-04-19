@@ -139,7 +139,7 @@ class PlayerUtil {
 private fun initPlayer(uriString: String) {
     try {
         val bandwidthMeter = DefaultBandwidthMeter()
-        val mediaSource = PlayerUtil.buildMediaSource(this,
+        val mediaSource = MediaSourceFactory.buildMediaSource(this,
                     Uri.parse(uriString))
 
         val trackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
@@ -217,11 +217,17 @@ public static int inferContentType(String fileName) {
 }
 ```
 
-**BandwidthMeter** : Estimates bandwidth by listening to data transfers.
+<br>
+
+**BandwidthMeter( 대역폭 )** : Estimates bandwidth by listening to data transfers.
+
+**AdaptiveTrackSelection** : A bandwidth based adaptive **TrackSelection**, whose selected track is updated to be the one of highest quality given the current network conditions and the state of the buffer.
+
+<br>
 
 **DataSourceFactory** : Produces **DataSource** instances that delegate to HttpDataSources
 
-​                                            for non-file/asset/content URIs.
+​                                        for non-file/asset/content URIs.
 
 **MediaSource** 
 
@@ -240,8 +246,8 @@ public final class DashMediaSource implements MediaSource {
 }
 ```
 
-**AdaptiveTrackSelection** : A bandwidth based adaptive **TrackSelection**, whose selected track is updated to be the one of highest quality given the current network conditions and the state of the buffer.
+<br>
 
+### Reference
 
-
-**Reference ** [ExoPlayer for Application developers](https://pt.slideshare.net/HassanAbid1/exoplayer-for-application-developers/10)
+[ExoPlayer for Application developers](https://pt.slideshare.net/HassanAbid1/exoplayer-for-application-developers/10)
