@@ -123,18 +123,18 @@ class Tweeter {
 }
 
 class Timeline {
-  	private val cache = mutableListOf<Tweet>()
-  	private lateinit var api: TweeterApi
+    private val cache = mutableListOf<Tweet>()
+    private lateinit var api: TweeterApi
   	
-  	private lateinit var user: String
+    private lateinit var user: String
   	
     constructor(user: String, api: TweeterApi) {
-      this.user = user
-      this.api = api
+        this.user = user
+        this.api = api
     }
   
-  	fun get(): mutableListOf<Tweet> {...}
-  	fun load(amout: Int) {...}
+    fun get(): mutableListOf<Tweet> {...}
+    fun load(amout: Int) {...}
 }
 ```
 

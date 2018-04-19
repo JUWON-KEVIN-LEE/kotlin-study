@@ -8,14 +8,15 @@ import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.upstream.*
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.TransferListener
 import com.google.android.exoplayer2.util.Util
 import com.kevin.navmedia.R
 import kotlinx.android.synthetic.main.activity_video.*
-import javax.inject.Inject
 
 class VideoActivity : AppCompatActivity() {
 
@@ -28,28 +29,30 @@ class VideoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video)
     }
 
-    private fun initPlayer(uriString: String, bandwidthMeter: BandwidthMeter) {
+    private fun initPlayer(uriString: String) {
         try {
-            val mediaSource = PlayerUtil.buildMediaSource(this,
-                    Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"))
+            val bandwidthMeter = DefaultBandwidthMeter()
+            val mediaSource = MediaSourceFactory.buildMediaSource(this,
+                    Uri.parse(uriString))
 
             val trackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
-            playerView.requestFocus()
             trackSelector = DefaultTrackSelector(trackSelectionFactory)
-
             player = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
 
+            playerView.requestFocus()
             playerView.player = player
             player.playWhenReady = autoPlay
             player.prepare(mediaSource)
-        } catch (exception: IllegalArgumentException) {
-            Log.d(TAG, exception.toString())
+        } catch (e: Exception) {
+            // TODO Error Handling
+            Log.d(TAG, e.toString())
         }
     }
 
+    /*
     @Inject
     fun setMediaSource(mediaSource: MediaSource) : MediaSource = mediaSource
-
+    */
     private fun initPlayer() {
         val bandwidthMeter = DefaultBandwidthMeter()
         val extractorsFactory = DefaultExtractorsFactory()
