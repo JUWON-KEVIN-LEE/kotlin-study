@@ -68,8 +68,6 @@ common ways :
 
   ​
 
-
-
 **Benefits of DI**
 
 - Loose coupling
@@ -180,6 +178,10 @@ class TweeterModule(val user: String) {
     }
 }
 ```
+
+![module_0](https://github.com/JUWON-KEVIN-LEE/kotlin-study/blob/master/di/images/module_0.png)
+
+![module_1](https://github.com/JUWON-KEVIN-LEE/kotlin-study/blob/master/di/images/module_1.png)
 
 <br>
 
