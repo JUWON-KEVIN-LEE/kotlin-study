@@ -16,5 +16,8 @@ class ExoPlayerModule {
         return DefaultBandwidthMeter()
     }
 
+    @Singleton @Provides
+    fun privideOkHttpClient() : BandwidthMeter {
 
+    }
 }

@@ -10,11 +10,7 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelector
-import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.TransferListener
+import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.util.Util
 import com.kevin.navmedia.R
 import kotlinx.android.synthetic.main.activity_video.*
@@ -30,11 +26,12 @@ class VideoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video)
     }
 
-    private fun initPlayer(uriString: String) {
+    private fun initPlayer(uriString: String, bandwidthMeter: BandwidthMeter) {
         try {
             val mediaSource = PlayerUtil.buildMediaSource(this,
                     Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"))
 
+            val trackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
             playerView.requestFocus()
             trackSelector = DefaultTrackSelector(trackSelectionFactory)
 
