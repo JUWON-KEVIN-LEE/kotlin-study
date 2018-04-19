@@ -1,4 +1,4 @@
-DI (의존성 주입, Dependency Injection)
+# DI (의존성 주입, Dependency Injection)
 
 ### 0. 
 
