@@ -127,7 +127,7 @@ class Timeline {
   	private lateinit var api: TweeterApi
   	
   	private lateinit var user: String
-  
+  	
     constructor(user: String, api: TweeterApi) {
       this.user = user
       this.api = api
@@ -173,11 +173,14 @@ class TweeterModule(val user: String) {
       	return OkhttpClient()
   	}
   
+  	@Provides @Singleton
     fun provideTimeline(api: TweeterApi): Timeline {
 		return Timeline(user, api)
     }
 }
 ```
+
+
 
 ![module_0](https://github.com/JUWON-KEVIN-LEE/kotlin-study/blob/master/di/images/module_0.png)
 
@@ -193,4 +196,4 @@ class TweeterModule(val user: String) {
 
 #### 출처
 
-[Fundamentals of Dependency Injection and popular libraries in Android](https://android.jlelse.eu/fundamentals-of-dependency-injection-and-popular-libraries-in-android-c17cf48b5253)
+[Fundamentals of Dependency Injection and popular libraries in Android                                ](https://android.jlelse.eu/fundamentals-of-dependency-injection-and-popular-libraries-in-android-c17cf48b5253)
