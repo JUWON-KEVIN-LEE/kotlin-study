@@ -53,6 +53,7 @@ class VideoActivity : AppCompatActivity() {
     @Inject
     fun setMediaSource(mediaSource: MediaSource) : MediaSource = mediaSource
     */
+
     private fun initPlayer() {
         val bandwidthMeter = DefaultBandwidthMeter()
         val extractorsFactory = DefaultExtractorsFactory()
