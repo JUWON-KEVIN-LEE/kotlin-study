@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
  * Created by quf93 on 2018-04-21.
  */
 class AppExecutors(val diskIO: Executor = Executors.newSingleThreadExecutor(),
-                   val networkIO: Executor = Executors.newFixedThreadPool(THREAD_NUM),
+                   val networkIO: Executor = Executors.newFixedThreadPool(N_THREADS),
                    val mainThread: Executor = MainThreadExecutor()) {
 
     class MainThreadExecutor : Executor {
@@ -21,6 +21,6 @@ class AppExecutors(val diskIO: Executor = Executors.newSingleThreadExecutor(),
     }
 
     companion object {
-        const val THREAD_NUM = 3
+        const val N_THREADS = 3
     }
 }
