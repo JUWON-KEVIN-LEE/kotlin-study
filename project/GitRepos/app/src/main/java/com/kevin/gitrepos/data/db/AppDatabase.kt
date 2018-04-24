@@ -7,7 +7,7 @@ import com.kevin.gitrepos.data.model.Repo
 /**
  * Created by quf93 on 2018-04-17.
  */
-@Database(entities = [(Repo::class)], version = 2)
+@Database(entities = [Repo::class], version = 2)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun repoDao(): RepoDao

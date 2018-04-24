@@ -27,14 +27,14 @@ class MainActivity : AppCompatActivity() {
     /**
      * 객체의 인자로 전달할 수 있어야 한다.
      */
-    fun function(param:() -> Unit) {
+    private fun function(param:() -> Unit) {
         param()
     }
 
     /**
      * 객체의 반환값으로 반환할 수 있어야 한다.
      */
-    fun function(): () -> Unit {
+    private fun function(): () -> Unit {
         return { println("Hello World") }
     }
 
@@ -80,11 +80,11 @@ class MainActivity : AppCompatActivity() {
      */
     private val printer: () -> Unit = { println("Functional Programming") }
 
-    fun callPrinter() {
+    private fun callPrinter() {
         return printer()
     }
 
-    fun returnPrinter(): () -> Unit {
+    private fun returnPrinter(): () -> Unit {
         return printer
     }
 }
