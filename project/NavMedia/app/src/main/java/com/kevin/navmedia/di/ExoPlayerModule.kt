@@ -16,7 +16,7 @@ import dagger.Module
 import dagger.Provides
 
 /**
- * Module 로 사용해도 될지 고민해봐야겠음.
+ * Module 로 사용 X
  * Created by quf93 on 2018-04-19.
  */
 @Module

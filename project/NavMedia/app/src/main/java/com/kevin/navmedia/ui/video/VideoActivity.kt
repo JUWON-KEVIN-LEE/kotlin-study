@@ -1,9 +1,11 @@
 package com.kevin.navmedia.ui.video
 
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.ImageView
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
@@ -17,16 +19,38 @@ import com.google.android.exoplayer2.upstream.TransferListener
 import com.google.android.exoplayer2.util.Util
 import com.kevin.navmedia.R
 import kotlinx.android.synthetic.main.activity_video.*
+import kotlinx.android.synthetic.main.exo_playback_control_view.*
 
 class VideoActivity : AppCompatActivity() {
 
     private lateinit var player: SimpleExoPlayer
     private var autoPlay: Boolean = true
     private lateinit var trackSelector: DefaultTrackSelector
+    private var isFullScreen: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
+
+        setScreenListener(screen)
+
+    }
+
+    private fun setScreenListener(button: ImageView) {
+        val dialog = object : Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            override fun onBackPressed() {
+                super.onBackPressed()
+                PlayerUtil.closeFullScreen(playerView, this, playerContainer)
+            }
+        }
+
+        button.setOnClickListener {
+            if(isFullScreen) {
+                isFullScreen = PlayerUtil.closeFullScreen(playerView, dialog, playerContainer)
+                return@setOnClickListener
+            }
+            isFullScreen = PlayerUtil.fullScreen(playerView, dialog)
+        }
     }
 
     private fun initPlayer(uriString: String) {

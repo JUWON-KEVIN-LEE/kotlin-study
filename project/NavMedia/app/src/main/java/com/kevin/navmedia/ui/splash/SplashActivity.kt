@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             R.drawable.splash_3
     )
 
-    private val summ = listOf(
+    private val summaries = listOf(
             R.string.splash_title_first,
             R.string.splash_title_second,
             R.string.splash_title_third,
@@ -53,7 +53,7 @@ class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         summary.visibility = View.INVISIBLE
         detail.visibility = View.INVISIBLE
 
-        summary.text = getString(summ[position])
+        summary.text = getString(summaries[position])
         detail.text = getString(details[position])
 
         summary.visibility = View.VISIBLE
