@@ -4,9 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
-    android:background="@drawable/gradient">
-
+    android:layout_height="match_parent">
+    <!--android:background="@drawable/gradient"-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,13 +35,16 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerInParent="true"
-            app:srcCompat="@drawable/exo_controls_play" />
+            android:tint="@color/White"
+            app:srcCompat="@drawable/exo_controls_play"
+            />
 
         <ImageView
             android:id="@+id/exo_pause"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerInParent="true"
+            android:tint="@color/White"
             app:srcCompat="@drawable/exo_controls_pause" />
     </FrameLayout>
 
@@ -52,6 +54,7 @@
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/ppContainer"
+        android:tint="@color/White"
         app:srcCompat="@drawable/exo_controls_previous" />
 
     <ImageView
@@ -60,6 +63,7 @@
         android:layout_height="40dp"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/ppContainer"
+        android:tint="@color/White"
         app:srcCompat="@drawable/exo_controls_next" />
 
     <LinearLayout

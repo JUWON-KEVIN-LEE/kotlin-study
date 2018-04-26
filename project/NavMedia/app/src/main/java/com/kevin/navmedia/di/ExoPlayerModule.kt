@@ -14,6 +14,7 @@ import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.util.Util
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Module 로 사용 X
@@ -25,7 +26,7 @@ class ExoPlayerModule(private val uri: Uri) {
     private val applicationName: String = "NavMedia"
 
     @Provides
-    fun provideMediaSource(factory:DefaultDataSourceFactory) : MediaSource {
+    fun provideMediaSource(factory: DefaultDataSourceFactory): MediaSource {
         @C.ContentType val type = Util.inferContentType(uri)
 
         return when(type) {
@@ -45,7 +46,7 @@ class ExoPlayerModule(private val uri: Uri) {
         }
     }
 
-    @Provides
+    @Singleton @Provides
     fun provideDataSourceFactory(app: Application, bandwidthMeter: BandwidthMeter) : DefaultDataSourceFactory {
         return DefaultDataSourceFactory(
                 app,
@@ -53,6 +54,6 @@ class ExoPlayerModule(private val uri: Uri) {
                 bandwidthMeter as TransferListener<in DataSource>)
     }
 
-    @Provides
+    @Singleton @Provides
     fun provideBandWidthMeter(): BandwidthMeter = DefaultBandwidthMeter()
 }

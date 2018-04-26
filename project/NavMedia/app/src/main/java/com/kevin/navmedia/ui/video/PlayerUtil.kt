@@ -1,9 +1,10 @@
 package com.kevin.navmedia.ui.video
 
-import android.app.Dialog
+import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.view.WindowManager
 import com.google.android.exoplayer2.ui.PlayerView
 
 /**
@@ -11,45 +12,39 @@ import com.google.android.exoplayer2.ui.PlayerView
  */
 class PlayerUtil {
     companion object {
-        fun hideSystemUI(playerView: PlayerView) {
-            playerView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE)
-        }
+        /**
+         * Make original size of screen
+         */
+        fun portrait(activity: Activity, playerView: PlayerView, others: View) {
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        fun showSystemUI(playerView: PlayerView) {
-            playerView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN)
+            // playerView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            others.visibility = View.VISIBLE
         }
 
         /**
          * Make full size of screen
          */
-        fun fullScreen(playerView: PlayerView, controlView: ViewGroup, fullScreen: Dialog): Boolean {
-            (playerView.parent as ViewGroup).removeView(playerView)
-            (playerView.parent as ViewGroup).removeView(controlView)
-            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        fun landscape(activity: Activity, playerView: PlayerView, others: View) {
+            //0.
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            //1.
+            var flag = (View.SYSTEM_UI_FLAG_LOW_PROFILE
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
-            fullScreen.addContentView(playerView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-            fullScreen.addContentView(controlView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-            fullScreen.show()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                flag = flag or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            }
 
-            return true // Is this view full size of screen ?
-        }
-
-        /**
-         * Make original size of screen
-         */
-        fun closeFullScreen(playerView: PlayerView, fullScreen: Dialog, parent: ViewGroup): Boolean{
-            (playerView.parent as ViewGroup).removeView(playerView)
-            parent.addView(playerView)
-            fullScreen.dismiss()
-
-            return false
+            playerView.systemUiVisibility = flag
+            //2.
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            others.visibility = View.GONE
         }
     }
 }
