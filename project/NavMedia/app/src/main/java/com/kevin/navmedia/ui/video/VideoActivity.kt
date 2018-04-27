@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -52,7 +51,6 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun landscape() {
-        Log.d("JUWONLEE","landscape()")
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         others.visibility = View.GONE
 //        viewModel.othersVis = ObservableInt(View.GONE)

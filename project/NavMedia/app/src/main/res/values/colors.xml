@@ -12,6 +12,10 @@
     <color name="colorProgram">#1E90FF</color>
     <color name="colorTime">#64000000</color>
 
+    <!-- exo player -->
+    <color name="default_background">#a0000000</color>
+    <color name="default_center_background">#14000000</color>
+
      <!-- color set -->
     <color name="Grey">#979797</color>
     <color name="White">#FFFFFF</color>

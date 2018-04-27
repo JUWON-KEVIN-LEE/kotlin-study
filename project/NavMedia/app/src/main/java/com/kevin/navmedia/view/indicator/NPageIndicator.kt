@@ -16,8 +16,8 @@ class NPageIndicator @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         ): View(context, attrs, defStyleAttr), PageIndicator {
 
-    private val mBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG) // 전체 공을 그릴 Paint
-    private val mFillPaint = Paint(Paint.ANTI_ALIAS_FLAG) // Page 를 따라 움직일 공을 그릴 Paint
+    private val mBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val mFillPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private var mViewPager: ViewPager? = null
     private var mScrollState: Int = -1

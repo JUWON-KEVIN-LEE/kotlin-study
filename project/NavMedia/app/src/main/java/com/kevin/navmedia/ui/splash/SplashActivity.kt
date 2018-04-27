@@ -60,7 +60,7 @@ class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         detail.visibility = View.VISIBLE
 
         if(position == 3) {
-            indicator.visibility = View.INVISIBLE
+            indicator.visibility = View.GONE
             start.visibility = View.VISIBLE
         } else {
             indicator.visibility = View.VISIBLE

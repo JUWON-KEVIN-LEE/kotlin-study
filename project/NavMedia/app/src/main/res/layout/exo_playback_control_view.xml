@@ -1,148 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <data>
-        <variable
-            name="viewModel"
-            type="com.kevin.navmedia.ui.video.VideoViewModel"/>
-    </data>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/controlView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!--android:background="@drawable/gradient"-->
-        <!-- TODO 사이즈 문제 -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="16dp"
-            android:orientation="horizontal">
+    <include
+        android:id="@+id/include"
+        layout="@layout/exo_playback_control_view_top"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:tint="@color/White"
-                app:srcCompat="@drawable/exo_controls_rewind" />
-        </LinearLayout>
+    <include
+        android:id="@+id/include_landscape"
+        layout="@layout/exo_playback_control_view_top_landscape"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/default_center_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/include2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintBottom_toBottomOf="include_landscape">
+
+        <ImageView
+            android:id="@+id/exo_previous"
+            android:layout_width="48dp"
+            android:layout_height="30dp"
+            android:tint="@color/White"
+            android:visibility="visible"
+            app:srcCompat="@drawable/exo_controls_previous" />
 
         <FrameLayout
-            android:id="@+id/ppContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp">
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp">
 
             <ImageView
                 android:id="@+id/exo_play"
                 android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerInParent="true"
+                android:layout_height="30dp"
                 android:tint="@color/White"
-                app:srcCompat="@drawable/exo_controls_play"
-                />
+                app:srcCompat="@drawable/exo_controls_play" />
 
             <ImageView
                 android:id="@+id/exo_pause"
                 android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerInParent="true"
+                android:layout_height="30dp"
                 android:tint="@color/White"
+                android:visibility="gone"
                 app:srcCompat="@drawable/exo_controls_pause" />
         </FrameLayout>
 
         <ImageView
-            android:id="@+id/exo_previous"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/ppContainer"
+            android:id="@+id/exo_next"
+            android:layout_width="48dp"
+            android:layout_height="30dp"
             android:tint="@color/White"
-            app:srcCompat="@drawable/exo_controls_previous" />
+            android:visibility="visible"
+            app:srcCompat="@drawable/exo_controls_next" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/exo_playback_control_view_bottom"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/lock"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@color/default_background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/include2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:srcCompat="@drawable/exo_controls_shuffle" />
+
+    <FrameLayout
+        android:id="@+id/error_wrapper"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/DarkGray"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/exo_next"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ppContainer"
-            android:tint="@color/White"
-            app:srcCompat="@drawable/exo_controls_next" />
+            android:id="@+id/retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            app:srcCompat="@drawable/exo_controls_repeat_all" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/Black"
-            android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/retry"
+            android:textColor="@color/White" />
+    </FrameLayout>
 
-            <com.google.android.exoplayer2.ui.DefaultTimeBar
-                android:id="@+id/exo_progress"
-                android:layout_width="0dp"
-                android:layout_height="26dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                app:played_color="@color/LimeGreen" />
-
-            <TextView
-                android:id="@+id/exo_position"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="12dp"
-                android:includeFontPadding="false"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:textColor="@color/LimeGreen"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/exo_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4dp"
-                android:includeFontPadding="false"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:textColor="@color/White"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/bandwidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:textColor="@color/White"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/exo_enter_fullscreen"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/exo_controls_fullscreen_enter" />
-
-            <ImageView
-                android:id="@+id/exo_exit_fullscreen"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:visibility="gone"
-                app:srcCompat="@drawable/exo_controls_fullscreen_exit" />
-        </LinearLayout>
-    </RelativeLayout>
-</layout>
+</android.support.constraint.ConstraintLayout>

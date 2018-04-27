@@ -12,7 +12,6 @@ import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -159,11 +158,17 @@ public class NPlayerControlView extends FrameLayout {
 
     // from here.
     private boolean portrait;
-    private OnOrientationChangedListener onOrientationChangedListener;
-    private final ImageView enterFullScreenButton;
-    private final ImageView exitFullScreenButton;
 
+    private OnOrientationChangedListener onOrientationChangedListener;
     private PlayerViewAccessor accessor;
+
+    private final View enterFullScreenButton;
+    private final View exitFullScreenButton;
+    private final View backButton;
+    private final View lockButton;
+    private final View bandwidthMeterSelector;
+    private final View errorWrapper;
+    private final View retryButton;
 
     public NPlayerControlView(Context context) {
         this(context, null);
@@ -276,8 +281,29 @@ public class NPlayerControlView extends FrameLayout {
         }
         exitFullScreenButton = findViewById(R.id.exo_exit_fullscreen);
         if(exitFullScreenButton != null) {
-            Log.d("JUWONLEE", "exit not null");
             exitFullScreenButton.setOnClickListener(componentListener);
+        }
+
+        // back button
+        backButton = findViewById(R.id.back);
+        if(backButton != null) {
+            backButton.setOnClickListener(componentListener);
+        }
+
+        lockButton = findViewById(R.id.lock);
+        if(lockButton != null) {
+            lockButton.setOnClickListener(componentListener);
+        }
+
+        bandwidthMeterSelector = findViewById(R.id.bandwidth);
+        if(bandwidthMeterSelector != null) {
+            bandwidthMeterSelector.setOnClickListener(componentListener);
+        }
+
+        errorWrapper = findViewById(R.id.error_wrapper);
+        retryButton = findViewById(R.id.retry);
+        if(errorWrapper != null && retryButton != null) {
+            retryButton.setOnClickListener(componentListener);
         }
     }
 
@@ -338,17 +364,17 @@ public class NPlayerControlView extends FrameLayout {
 
     private void changeSystemUILandscape() {
         int flag = View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             flag |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         }
 
-
-        setSystemUiVisibility(flag);
+        accessor.playerView().setSystemUiVisibility(flag);
     }
 
     @SuppressWarnings("ResourceType")
@@ -558,15 +584,9 @@ public class NPlayerControlView extends FrameLayout {
             }
             updateAll();
             requestPlayPauseFocus();
-            requestEnterExitFocus();
         }
         // Call hideAfterTimeout even if already visible to reset the timeout.
         hideAfterTimeout();
-    }
-
-    private void requestEnterExitFocus() {
-        if(isPortrait() && isVisible()) enterFullScreenButton.requestFocus();
-        else if(!isPortrait() && isVisible()) exitFullScreenButton.requestFocus();
     }
 
     /** Hides the controller. */
@@ -1097,7 +1117,6 @@ public class NPlayerControlView extends FrameLayout {
 
         @Override
         public void onClick(View view) {
-            Log.d("JUWONLEE", "ID: " + view.getId());
             if (player != null) {
                 if (nextButton == view) {
                     next();
@@ -1124,11 +1143,15 @@ public class NPlayerControlView extends FrameLayout {
                 } else if (shuffleButton == view) {
                     controlDispatcher.dispatchSetShuffleModeEnabled(player, !player.getShuffleModeEnabled());
                 } else if (enterFullScreenButton == view) {
-                    Log.d("JUWONLEE","landscape clicked");
                     changeOrientation(LANDSCAPE);
                 } else if (exitFullScreenButton == view) {
-                    Log.d("JUWONLEE","portrait clicked");
                     changeOrientation(PORTRAIT);
+                } else if (backButton == view) {
+                    // TODO
+                } else if (lockButton == view) {
+                    // TODO
+                } else if (retryButton == view) {
+                    // TODO
                 }
             }
             hideAfterTimeout();
