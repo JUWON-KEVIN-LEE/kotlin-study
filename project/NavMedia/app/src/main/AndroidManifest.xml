@@ -18,7 +18,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.Fullscreen"></activity>
         <activity
             android:name=".ui.video.VideoActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Fullscreen">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.Fullscreen"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

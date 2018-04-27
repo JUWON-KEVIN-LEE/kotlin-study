@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.kevin.navmedia.ui.video.VideoActivity">
-
-    <FrameLayout
-        android:id="@+id/playerContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/playerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.google.android.exoplayer2.ui.PlayerView>
-    </FrameLayout>
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kevin.navmedia.ui.video.VideoViewModel"/>
+    </data>
 
     <LinearLayout
-        android:id="@+id/others"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:background="@color/CadetBlue"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.kevin.navmedia.ui.video.VideoActivity">
 
+        <FrameLayout
+            android:id="@+id/playerContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.kevin.navmedia.view.exoplayer.NPlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.kevin.navmedia.view.exoplayer.NPlayerView>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/others"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:background="@color/CadetBlue"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.othersVis}">
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>
