@@ -4,11 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
 
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/portrait"
         layout="@layout/exo_playback_control_view_top"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -18,26 +19,36 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/include_landscape"
+        android:id="@+id/landscape"
         layout="@layout/exo_playback_control_view_top_landscape"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/default_center_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/include2"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toBottomOf="@id/portrait"
+        android:background="@color/default_center_background">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/portrait">
 
         <ImageView
             android:id="@+id/exo_previous"
@@ -80,7 +91,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/include2"
+        android:id="@+id/bottom"
         layout="@layout/exo_playback_control_view_bottom"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -94,11 +105,12 @@
         android:id="@+id/lock"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
         android:background="@color/default_background"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/include2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintBottom_toTopOf="@+id/bottom"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/portrait"
         app:srcCompat="@drawable/exo_controls_shuffle" />
 
     <FrameLayout

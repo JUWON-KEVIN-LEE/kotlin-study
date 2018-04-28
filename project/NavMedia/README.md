@@ -49,86 +49,76 @@ ExoPlayer2 (Google Media Framework Library)
 ### MediaSource Factory
 
 ```kotlin
-class MediaSourceFactory {
+class MediaSourceFactory constructor(private val context: Context) {
+
+    private val dataSourceFactory: DataSource.Factory
+    private val trackSelector: DefaultTrackSelector
+
+    init {
+        dataSourceFactory = buildDataSourceFactory(true)
+
+        val adaptiveTrackSelectionFactory = AdaptiveTrackSelection.Factory(BANDWIDTH_METER)
+        trackSelector = DefaultTrackSelector(adaptiveTrackSelectionFactory)
+    }
+
+    fun getTrackSelector(): DefaultTrackSelector = trackSelector
+
+    /**
+     * Return DefaultDataSourceFactory
+     */
+    private fun buildDataSourceFactory(useBandwidthMeter: Boolean) : DataSource.Factory
+            = buildDataSourceFactory(if(useBandwidthMeter) BANDWIDTH_METER else null)
+
+    private fun buildDataSourceFactory(bandwidthMeter: DefaultBandwidthMeter?) : DataSource.Factory
+        = DefaultDataSourceFactory(
+                context,
+                Util.getUserAgent(context, applicationName),
+                bandwidthMeter as TransferListener<in DataSource>)
+        /*
+        = DefaultDataSourceFactory(
+                context,
+                listener,
+                DefaultHttpDataSourceFactory(Util.getUserAgent(context, applicationName),
+                						listener)
+                )
+        */
+
+    /**
+     * Return MediaSource using streaming or other media type (C.ContentType)
+     */
+    fun buildMediaSource(uri: Uri, @C.ContentType type: Int) : MediaSource {
+        return when(type) {
+            C.TYPE_SS -> SsMediaSource
+                    .Factory(DefaultSsChunkSource.Factory(dataSourceFactory),
+                            buildDataSourceFactory(false))
+                    .createMediaSource(uri)
+            C.TYPE_DASH -> DashMediaSource
+                    .Factory(DefaultDashChunkSource.Factory(dataSourceFactory),
+                            buildDataSourceFactory(false))
+                    .createMediaSource(uri)
+            C.TYPE_HLS -> HlsMediaSource
+                    .Factory(dataSourceFactory)
+                    .createMediaSource(uri)
+            C.TYPE_OTHER -> ExtractorMediaSource
+                    .Factory(dataSourceFactory)
+                    .createMediaSource(uri)
+            else -> throw IllegalStateException("Unsupprted Type : " + type)
+        }
+    }
+
     companion object {
-        /**
-         * Return DefaultDataSourceFactory
-         */
-        private fun buildDataSourceFactory(context: Context,
-                                           useBandwidthMeter: Boolean) : DataSource.Factory {
-            return buildDataSourceFactory(context,
-                    if(useBandwidthMeter) DefaultBandwidthMeter() else null)
-        }
-
-        private fun buildDataSourceFactory(context: Context,
-                                bandwidthMeter: DefaultBandwidthMeter?) : DataSource.Factory {
-            return DefaultDataSourceFactory(
-                    context,
-                    Util.getUserAgent(context, "NavMedia"),
-                    bandwidthMeter as TransferListener<in DataSource>)
-        }
-
-        /**
-         * Return MediaSource using streaming or other media type (C.ContentType)
-         * In ExoPlayer every piece of media is represented by MediaSource
-         */
-        fun buildMediaSource(context: Context, uri: Uri) : MediaSource {
-            @C.ContentType val type = Util.inferContentType(uri)
-            val dataSourceFactory : DataSource.Factory = buildDataSourceFactory(context, false)
-
-            return when(type) {
-                C.TYPE_SS -> SsMediaSource
-                        .Factory(DefaultSsChunkSource.Factory(dataSourceFactory),
-                                 dataSourceFactory)
-                        .createMediaSource(uri)
-                C.TYPE_DASH -> DashMediaSource
-                        .Factory(DefaultDashChunkSource.Factory(dataSourceFactory),
-                                 dataSourceFactory)
-                        .createMediaSource(uri)
-                C.TYPE_HLS -> HlsMediaSource
-                        .Factory(dataSourceFactory)
-                        .createMediaSource(uri)
-                C.TYPE_OTHER -> ExtractorMediaSource
-                        .Factory(dataSourceFactory)
-                        .createMediaSource(uri)
-                else -> throw IllegalStateException("Unsupprted Type : " + type)
-            }
-        }
+        private const val applicationName: String = "NavMedia"
+        private val BANDWIDTH_METER = DefaultBandwidthMeter()
     }
 }
 ```
 
 <br>
 
-### PlayerUtil
+### Fullscreen
 
 ```kotlin
-class PlayerUtil {
-    /**
-     * Make full size of screen
-     */
-    fun fullScreen(playerView: PlayerView, fullScreen: Dialog): Boolean {
-        (playerView.parent as ViewGroup).removeView(playerView)
-        fullScreen.addContentView(playerView,
-                            ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                   ViewGroup.LayoutParams.MATCH_PARENT))
-        fullScreen.show()
 
-        return true // Is this view full size of screen ?
-    }
-
-    /**
-    * Make original size of screen
-    */
-    fun closeFullScreen(playerView: PlayerView, fullScreen: Dialog,
-                        parent: ViewGroup): Boolean {
-        (playerView.parent as ViewGroup).removeView(playerView)
-        parent.addView(playerView)
-        fullScreen.dismiss()
-
-        return false
-    }
-}
 ```
 
 <br>
@@ -137,23 +127,35 @@ class PlayerUtil {
 
 ```kotlin
 private fun initPlayer(uriString: String) {
-    try {
-        val bandwidthMeter = DefaultBandwidthMeter()
-        val mediaSource = MediaSourceFactory.buildMediaSource(this,
-                    Uri.parse(uriString))
+    try
+    {
+        val uri = Uri.parse(uriString)
+        val type = Util.inferContentType(uri)
+        val mediaSource = mediaSourceFactory.buildMediaSource(uri, type)
 
-        val trackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
-        trackSelector = DefaultTrackSelector(trackSelectionFactory)
-        player = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
+        player = ExoPlayerFactory.newSimpleInstance(this, mediaSourceFactory.getTrackSelector())
 
         playerView.requestFocus()
+
         playerView.player = player
         player.playWhenReady = autoPlay
         player.prepare(mediaSource)
+
     } catch (e: Exception) {
         // TODO Error Handling
-        Log.d(TAG, e.toString())
     }
+}
+```
+
+```kotlin
+override fun onStart() {
+    super.onStart()
+    if(Util.SDK_INT > 23) initPlayer(uriString)
+}
+
+override fun onResume() {
+    super.onResume()
+    if(Util.SDK_INT <= 23) initPlayer(uriString)
 }
 ```
 
@@ -167,16 +169,6 @@ private fun releasePlayer() {
 ```
 
 ```kotlin
-override fun onStart() {
-    super.onStart()
-    if(Util.SDK_INT > 23) initPlayer()
-}
-
-override fun onResume() {
-    super.onResume()
-    if(Util.SDK_INT <= 23) initPlayer()
-}
-
 override fun onPause() {
     super.onPause()
     if(Util.SDK_INT <= 23) releasePlayer()

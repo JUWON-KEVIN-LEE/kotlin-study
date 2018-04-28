@@ -19,5 +19,9 @@ public interface GestureListener {
     @interface VolumeChangeType {
     }
 
+    void onChangedVolume(int volume);
 
+    void onChangedBrightness(int brightness);
+
+    void seek(long value);
 }

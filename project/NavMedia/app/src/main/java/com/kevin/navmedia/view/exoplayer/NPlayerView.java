@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -51,7 +52,7 @@ import java.util.List;
  * Created by quf93 on 2018-04-27.
  */
 
-public class NPlayerView extends FrameLayout implements NPlayerControlView.PlayerViewAccessor {
+public class NPlayerView extends FrameLayout {
     private static final int SURFACE_TYPE_NONE = 0;
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
     private static final int SURFACE_TYPE_TEXTURE_VIEW = 2;
@@ -74,9 +75,6 @@ public class NPlayerView extends FrameLayout implements NPlayerControlView.Playe
     private boolean controllerHideDuringAds;
     private boolean controllerHideOnTouch;
     private int textureViewRotation;
-
-    private boolean portrait;
-    private OnOrientationChangedListener onOrientationChangedListener;
 
     public NPlayerView(Context context) {
         this(context, null);
@@ -115,7 +113,7 @@ public class NPlayerView extends FrameLayout implements NPlayerControlView.Playe
         int defaultArtworkId = 0;
         boolean useController = true;
         int surfaceType = SURFACE_TYPE_SURFACE_VIEW;
-        int resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT;
+        int resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL;
         int controllerShowTimeoutMs = PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS;
         boolean controllerHideOnTouch = true;
         boolean controllerAutoShow = true;
@@ -215,12 +213,6 @@ public class NPlayerView extends FrameLayout implements NPlayerControlView.Playe
         this.controllerHideDuringAds = controllerHideDuringAds;
         this.useController = useController && controller != null;
         hideController();
-
-        if(controller != null) controller.setAccessor(this);
-    }
-
-    public void setResizeMode() {
-
     }
 
     public boolean isPortrait() { return controller != null && controller.isPortrait(); }
@@ -847,9 +839,25 @@ public class NPlayerView extends FrameLayout implements NPlayerControlView.Playe
                 || keyCode == KeyEvent.KEYCODE_DPAD_CENTER;
     }
 
-    @Override
-    public View playerView() {
-        return this;
+    public void changeSystemUIPortrait() {
+        setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+    }
+
+    public void changeSystemUILandscape() {
+        int flag = View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            flag |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+
+
+        setSystemUiVisibility(flag);
     }
 
     private final class ComponentListener extends Player.DefaultEventListener

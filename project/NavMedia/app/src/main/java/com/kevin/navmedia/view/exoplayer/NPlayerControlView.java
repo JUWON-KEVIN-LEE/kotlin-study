@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -49,10 +48,6 @@ public class NPlayerControlView extends FrameLayout {
 
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.ui");
-    }
-
-    public interface PlayerViewAccessor {
-        View playerView();
     }
 
     public interface OnOrientationChangedListener {
@@ -160,7 +155,6 @@ public class NPlayerControlView extends FrameLayout {
     private boolean portrait;
 
     private OnOrientationChangedListener onOrientationChangedListener;
-    private PlayerViewAccessor accessor;
 
     private final View enterFullScreenButton;
     private final View exitFullScreenButton;
@@ -169,6 +163,9 @@ public class NPlayerControlView extends FrameLayout {
     private final View bandwidthMeterSelector;
     private final View errorWrapper;
     private final View retryButton;
+    private final View videoListUp;
+    private final View portraitView;
+    private final View landscapeView;
 
     public NPlayerControlView(Context context) {
         this(context, null);
@@ -305,6 +302,14 @@ public class NPlayerControlView extends FrameLayout {
         if(errorWrapper != null && retryButton != null) {
             retryButton.setOnClickListener(componentListener);
         }
+
+        videoListUp = findViewById(R.id.video_list_up);
+        if(videoListUp != null) {
+            videoListUp.setOnClickListener(componentListener);
+        }
+
+        portraitView = findViewById(R.id.portrait);
+        landscapeView = findViewById(R.id.landscape);
     }
 
     public boolean isPortrait() {return portrait;}
@@ -313,18 +318,24 @@ public class NPlayerControlView extends FrameLayout {
         this.portrait = portrait;
     }
 
-    private void changeFullscreenVisibility(boolean portrait) {
+    private void changeUI(boolean portrait) {
         if(portrait) {
             enterFullScreenButton.setVisibility(View.VISIBLE);
             exitFullScreenButton.setVisibility(View.GONE);
+            lockButton.setVisibility(View.GONE);
+            videoListUp.setVisibility(View.GONE);
+
+            portraitView.setVisibility(View.VISIBLE);
+            landscapeView.setVisibility(View.GONE);
         } else {
             enterFullScreenButton.setVisibility(View.GONE);
             exitFullScreenButton.setVisibility(View.VISIBLE);
-        }
-    }
+            lockButton.setVisibility(View.VISIBLE);
+            videoListUp.setVisibility(View.VISIBLE);
 
-    public void setAccessor(PlayerViewAccessor accessor) {
-        this.accessor = accessor;
+            portraitView.setVisibility(View.GONE);
+            landscapeView.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setOnOrientationChangedListener(OnOrientationChangedListener listener) {
@@ -341,40 +352,19 @@ public class NPlayerControlView extends FrameLayout {
         switch (orientation) {
             case LANDSCAPE:
                 setPortrait(false);
-                changeFullscreenVisibility(false);
+                changeUI(false);
                 ((Activity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                changeSystemUIPortrait();
                 break;
             case PORTRAIT:
                 setPortrait(true);
-                changeFullscreenVisibility(true);
+                changeUI(true);
                 ((Activity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                changeSystemUILandscape();
                 break;
             default:
                 break;
         }
 
         onOrientationChangedListener.onOrientaionChanged(orientation);
-    }
-
-    private void changeSystemUIPortrait() {
-        accessor.playerView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-    }
-
-    private void changeSystemUILandscape() {
-        int flag = View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            flag |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }
-
-        accessor.playerView().setSystemUiVisibility(flag);
     }
 
     @SuppressWarnings("ResourceType")
@@ -991,11 +981,12 @@ public class NPlayerControlView extends FrameLayout {
             return false;
         }
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            // 꾹 누르기
             if (keyCode == KeyEvent.KEYCODE_MEDIA_FAST_FORWARD) {
                 fastForward();
             } else if (keyCode == KeyEvent.KEYCODE_MEDIA_REWIND) {
                 rewind();
-            } else if (event.getRepeatCount() == 0) {
+            } else if (event.getRepeatCount() == 0) { // 톡 누르기
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                         controlDispatcher.dispatchSetPlayWhenReady(player, !player.getPlayWhenReady());
@@ -1152,6 +1143,8 @@ public class NPlayerControlView extends FrameLayout {
                     // TODO
                 } else if (retryButton == view) {
                     // TODO
+                } else if (videoListUp == view) {
+
                 }
             }
             hideAfterTimeout();

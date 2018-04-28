@@ -11,7 +11,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="16dp"
         android:background="@drawable/back"
         android:backgroundTint="@color/White" />
 
@@ -20,19 +20,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="16dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
+        android:text="Hello World! This is video title."
         android:textColor="@color/White"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/like"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginRight="8dp"
         app:srcCompat="@drawable/ic_menu_share" />
 

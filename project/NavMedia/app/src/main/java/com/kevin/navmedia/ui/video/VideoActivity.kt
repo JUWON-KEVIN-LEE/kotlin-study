@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.WindowManager
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.util.Util
@@ -45,15 +44,15 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun portrait() {
-        window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-//        viewModel.othersVis = ObservableInt(View.VISIBLE)
+        // window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        playerView.changeSystemUIPortrait()
         others.visibility = View.VISIBLE
     }
 
     private fun landscape() {
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        // window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        playerView.changeSystemUILandscape()
         others.visibility = View.GONE
-//        viewModel.othersVis = ObservableInt(View.GONE)
     }
 
     private fun initPlayer(uriString: String) {

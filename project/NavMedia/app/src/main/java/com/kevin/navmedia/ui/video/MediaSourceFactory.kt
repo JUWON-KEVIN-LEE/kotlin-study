@@ -60,10 +60,12 @@ class MediaSourceFactory constructor(private val context: Context) {
     fun buildMediaSource(uri: Uri, @C.ContentType type: Int) : MediaSource {
         return when(type) {
             C.TYPE_SS -> SsMediaSource
-                    .Factory(DefaultSsChunkSource.Factory(dataSourceFactory), dataSourceFactory)
+                    .Factory(DefaultSsChunkSource.Factory(dataSourceFactory),
+                            buildDataSourceFactory(false))
                     .createMediaSource(uri)
             C.TYPE_DASH -> DashMediaSource
-                    .Factory(DefaultDashChunkSource.Factory(dataSourceFactory),dataSourceFactory)
+                    .Factory(DefaultDashChunkSource.Factory(dataSourceFactory),
+                            buildDataSourceFactory(false))
                     .createMediaSource(uri)
             C.TYPE_HLS -> HlsMediaSource
                     .Factory(dataSourceFactory)
