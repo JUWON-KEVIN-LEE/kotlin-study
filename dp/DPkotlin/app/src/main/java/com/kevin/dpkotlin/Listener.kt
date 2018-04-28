@@ -3,6 +3,8 @@ package com.kevin.dpkotlin
 import kotlin.properties.Delegates
 
 /**
+ * The observer pattern is used to allow an object to publish changes to its state. 
+ * Other objects subscribe to be immediately notified of any changes.
  * Created by quf93 on 2018-04-24.
  */
 interface TextChangedListener {

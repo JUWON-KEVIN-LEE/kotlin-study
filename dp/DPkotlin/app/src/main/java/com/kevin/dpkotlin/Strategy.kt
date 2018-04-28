@@ -1,9 +1,11 @@
 package com.kevin.dpkotlin
 
 /**
+ * The strategy pattern is used to create an interchangeable family of algorithms
+ * from which the required process is chosen at run-time.
  * Created by quf93 on 2018-04-24.
  */
-class Printer(val strategy:(String) -> String) {
+class Printer(private val strategy:(String) -> String) {
     fun print(string: String) = println(strategy(string))
 }
 
