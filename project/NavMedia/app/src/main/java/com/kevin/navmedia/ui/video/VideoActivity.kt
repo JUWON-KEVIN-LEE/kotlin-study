@@ -10,8 +10,8 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.util.Util
 import com.kevin.navmedia.App
 import com.kevin.navmedia.R
-import com.kevin.navmedia.view.exoplayer.NPlayerControlView.OnOrientationChangedListener.LANDSCAPE
-import com.kevin.navmedia.view.exoplayer.NPlayerControlView.OnOrientationChangedListener.PORTRAIT
+import com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.LANDSCAPE
+import com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.PORTRAIT
 import kotlinx.android.synthetic.main.activity_video.*
 
 class VideoActivity : AppCompatActivity() {

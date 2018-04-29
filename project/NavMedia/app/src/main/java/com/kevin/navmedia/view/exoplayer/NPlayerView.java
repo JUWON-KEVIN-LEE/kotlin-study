@@ -44,7 +44,7 @@ import com.google.android.exoplayer2.util.RepeatModeUtil;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 import com.kevin.navmedia.R;
-import com.kevin.navmedia.view.exoplayer.NPlayerControlView.OnOrientationChangedListener;
+import com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ import java.util.List;
  * Created by quf93 on 2018-04-27.
  */
 
-public class NPlayerView extends FrameLayout {
+public class NPlayerView extends FrameLayout implements GestureListener {
     private static final int SURFACE_TYPE_NONE = 0;
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
     private static final int SURFACE_TYPE_TEXTURE_VIEW = 2;
@@ -62,7 +62,7 @@ public class NPlayerView extends FrameLayout {
     private final View surfaceView;
     private final ImageView artworkView;
     private final SubtitleView subtitleView;
-    private final NPlayerControlView controller;
+    private final NPlaybackControlView controller;
     private final NPlayerView.ComponentListener componentListener;
     private final FrameLayout overlayFrameLayout;
 
@@ -191,14 +191,14 @@ public class NPlayerView extends FrameLayout {
         }
 
         // Playback control view.
-        NPlayerControlView customController = findViewById(R.id.exo_controller);
+        NPlaybackControlView customController = findViewById(R.id.exo_controller);
         View controllerPlaceholder = findViewById(R.id.exo_controller_placeholder);
         if (customController != null) {
             this.controller = customController;
         } else if (controllerPlaceholder != null) {
             // Propagate attrs as playbackAttrs so that PlayerControlView's custom attributes are
             // transferred, but standard FrameLayout attributes (e.g. background) are not.
-            this.controller = new NPlayerControlView(context, null, 0, attrs);
+            this.controller = new NPlaybackControlView(context, null, 0, attrs);
             controller.setLayoutParams(controllerPlaceholder.getLayoutParams());
             ViewGroup parent = ((ViewGroup) controllerPlaceholder.getParent());
             int controllerIndex = parent.indexOfChild(controllerPlaceholder);
@@ -657,11 +657,13 @@ public class NPlayerView extends FrameLayout {
         if (!useController || player == null || ev.getActionMasked() != MotionEvent.ACTION_DOWN) {
             return false;
         }
+
         if (!controller.isVisible()) {
             maybeShowController(true);
         } else if (controllerHideOnTouch) {
             controller.hide();
         }
+
         return true;
     }
 
@@ -858,6 +860,11 @@ public class NPlayerView extends FrameLayout {
 
 
         setSystemUiVisibility(flag);
+    }
+
+    @Override
+    public void seekTo(long value) {
+
     }
 
     private final class ComponentListener extends Player.DefaultEventListener

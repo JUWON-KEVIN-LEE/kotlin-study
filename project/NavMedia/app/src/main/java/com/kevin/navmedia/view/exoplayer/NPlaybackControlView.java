@@ -7,13 +7,17 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,15 +40,15 @@ import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Locale;
 
-import static com.kevin.navmedia.view.exoplayer.NPlayerControlView.OnOrientationChangedListener.LANDSCAPE;
-import static com.kevin.navmedia.view.exoplayer.NPlayerControlView.OnOrientationChangedListener.OrientationType;
-import static com.kevin.navmedia.view.exoplayer.NPlayerControlView.OnOrientationChangedListener.PORTRAIT;
+import static com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.LANDSCAPE;
+import static com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.OrientationType;
+import static com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.PORTRAIT;
 
 /**
  * Created by quf93 on 2018-04-27.
  */
 
-public class NPlayerControlView extends FrameLayout {
+public class NPlaybackControlView extends FrameLayout {
 
     static {
         ExoPlayerLibraryInfo.registerModule("goog.exo.ui");
@@ -90,7 +94,7 @@ public class NPlayerControlView extends FrameLayout {
 
     private static final long MAX_POSITION_FOR_SEEK_TO_PREVIOUS = 3000;
 
-    private final NPlayerControlView.ComponentListener componentListener;
+    private final NPlaybackControlView.ComponentListener componentListener;
     private final View previousButton;
     private final View nextButton;
     private final View playButton;
@@ -167,19 +171,19 @@ public class NPlayerControlView extends FrameLayout {
     private final View portraitView;
     private final View landscapeView;
 
-    public NPlayerControlView(Context context) {
+    public NPlaybackControlView(Context context) {
         this(context, null);
     }
 
-    public NPlayerControlView(Context context, AttributeSet attrs) {
+    public NPlaybackControlView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public NPlayerControlView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NPlaybackControlView(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, attrs);
     }
 
-    public NPlayerControlView(
+    public NPlaybackControlView(
             Context context, AttributeSet attrs, int defStyleAttr, AttributeSet playbackAttrs) {
         super(context, attrs, defStyleAttr);
         int controllerLayoutId = R.layout.exo_player_control_view;
@@ -216,7 +220,7 @@ public class NPlayerControlView extends FrameLayout {
         playedAdGroups = new boolean[0];
         extraAdGroupTimesMs = new long[0];
         extraPlayedAdGroups = new boolean[0];
-        componentListener = new NPlayerControlView.ComponentListener();
+        componentListener = new NPlaybackControlView.ComponentListener();
         controlDispatcher = new com.google.android.exoplayer2.DefaultControlDispatcher();
 
         LayoutInflater.from(context).inflate(controllerLayoutId, this);
@@ -310,6 +314,99 @@ public class NPlayerControlView extends FrameLayout {
 
         portraitView = findViewById(R.id.portrait);
         landscapeView = findViewById(R.id.landscape);
+
+        // gesture func.
+        screen = new DisplayMetrics();
+        accessDisplayMetrics(screen);
+
+        // volume
+        audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        gestureManager = new GestureManager(getContext(), audioManager);
+    }
+
+    private float initX = -1f;
+    private float initY = -1f;
+
+    private float touchX = -1f;
+    private float touchY = -1f;
+
+    private int yDisplayRange = 0;
+    private DisplayMetrics screen;
+
+    private final AudioManager audioManager;
+    private final GestureManager gestureManager;
+    private GestureListener gestureListener;
+
+    private void accessDisplayMetrics(DisplayMetrics screen) {
+        WindowManager manager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        manager.getDefaultDisplay().getMetrics(screen);
+
+        if(yDisplayRange == 0) setYDisplayRange(screen.widthPixels, screen.heightPixels);
+    }
+
+    private void setYDisplayRange(int widthPixels, int heightPixels) {
+        yDisplayRange = Math.min(widthPixels, heightPixels);
+    }
+
+    public void setGestureListener(GestureListener gestureListener) {
+        // to seek func
+        this.gestureListener = gestureListener;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x_var;
+        float y_var;
+
+        if(touchX != -1 && touchY != -1) {
+            x_var = event.getRawX() - touchX;
+            y_var = event.getRawY() - touchY;
+        } else {
+            x_var = 0f;
+            y_var = 0f;
+        }
+
+        float coef = Math.abs(y_var / x_var);
+
+        int action = event.getAction();
+
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                touchX = initX = event.getRawX();
+                touchY = initY = event.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if(coef > 2) {
+                    if(Math.abs(y_var / yDisplayRange) < 0.01) return false;
+
+                    touchX = event.getRawX();
+                    touchY = event.getRawY();
+
+                    // Change volume or brightness
+                    if((int)initX > (screen.widthPixels / 2)) {
+                        int variance = gestureManager.calculateVolumeVariance(y_var / yDisplayRange);
+                        gestureManager.setStreamVolume(variance);
+                        showVolumeUI(gestureManager.getCurrentVolume(),
+                                gestureManager.isMute());
+                    } else {
+                        gestureListener.seekTo(0);
+                    }
+                } else {
+                    // Do ff or rw
+
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                touchX = -1f;
+                touchY = -1f;
+                break;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    private void showVolumeUI(int volume, boolean isMute) {
+
     }
 
     public boolean isPortrait() {return portrait;}
