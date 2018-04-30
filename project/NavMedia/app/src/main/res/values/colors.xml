@@ -15,6 +15,7 @@
     <!-- exo player -->
     <color name="default_background">#a0000000</color>
     <color name="default_center_background">#14000000</color>
+    <color name="vol_br_control">#785bffb2</color>
 
      <!-- color set -->
     <color name="Grey">#979797</color>

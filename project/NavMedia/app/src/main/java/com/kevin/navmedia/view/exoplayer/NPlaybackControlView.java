@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
 import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -314,14 +312,6 @@ public class NPlaybackControlView extends FrameLayout {
 
         portraitView = findViewById(R.id.portrait);
         landscapeView = findViewById(R.id.landscape);
-
-        // gesture func.
-        screen = new DisplayMetrics();
-        accessDisplayMetrics(screen);
-
-        // volume
-        audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-        gestureManager = new GestureManager(getContext(), audioManager);
     }
 
     private float initX = -1f;
@@ -331,30 +321,21 @@ public class NPlaybackControlView extends FrameLayout {
     private float touchY = -1f;
 
     private int yDisplayRange = 0;
+
     private DisplayMetrics screen;
+    private GestureManager gestureManager;
 
-    private final AudioManager audioManager;
-    private final GestureManager gestureManager;
-    private GestureListener gestureListener;
+    public void setGestureManager(GestureManager gestureManager) {
+        this.gestureManager = gestureManager;
 
-    private void accessDisplayMetrics(DisplayMetrics screen) {
-        WindowManager manager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        manager.getDefaultDisplay().getMetrics(screen);
-
-        if(yDisplayRange == 0) setYDisplayRange(screen.widthPixels, screen.heightPixels);
-    }
-
-    private void setYDisplayRange(int widthPixels, int heightPixels) {
-        yDisplayRange = Math.min(widthPixels, heightPixels);
-    }
-
-    public void setGestureListener(GestureListener gestureListener) {
-        // to seek func
-        this.gestureListener = gestureListener;
+        this.yDisplayRange = gestureManager.getYDisplayRange();
+        this.screen = gestureManager.getScreen();
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(gestureManager == null) return false;
+
         float x_var;
         float y_var;
 
@@ -384,16 +365,17 @@ public class NPlaybackControlView extends FrameLayout {
 
                     // Change volume or brightness
                     if((int)initX > (screen.widthPixels / 2)) {
-                        int variance = gestureManager.calculateVolumeVariance(y_var / yDisplayRange);
-                        gestureManager.setStreamVolume(variance);
+                        gestureManager.setStreamVolume(y_var / yDisplayRange);
                         showVolumeUI(gestureManager.getCurrentVolume(),
                                 gestureManager.isMute());
+                        return true;
                     } else {
-                        gestureListener.seekTo(0);
+
+
                     }
                 } else {
                     // Do ff or rw
-
+                    gestureManager.seekTo(11);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -402,7 +384,7 @@ public class NPlaybackControlView extends FrameLayout {
                 break;
         }
 
-        return super.onTouchEvent(event);
+        return true;
     }
 
     private void showVolumeUI(int volume, boolean isMute) {

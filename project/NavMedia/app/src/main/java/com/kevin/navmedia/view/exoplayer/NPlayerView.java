@@ -652,16 +652,35 @@ public class NPlayerView extends FrameLayout implements GestureListener {
         return subtitleView;
     }
 
+    private GestureManager gestureManager;
+    private boolean wasActionMove;
+
+    public void setGestureManager(GestureManager gestureManager) {
+        this.gestureManager = gestureManager;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (!useController || player == null || ev.getActionMasked() != MotionEvent.ACTION_DOWN) {
             return false;
         }
 
-        if (!controller.isVisible()) {
-            maybeShowController(true);
-        } else if (controllerHideOnTouch) {
-            controller.hide();
+        int action = ev.getAction();
+
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                wasActionMove = false;
+                return controller.onTouchEvent(ev);
+            case MotionEvent.ACTION_MOVE:
+                wasActionMove = true;
+                return controller.onTouchEvent(ev);
+            case MotionEvent.ACTION_UP:
+                if (!controller.isVisible() && !wasActionMove) {
+                    maybeShowController(true);
+                } else if (controllerHideOnTouch) {
+                    controller.hide();
+                }
+                return true;
         }
 
         return true;
