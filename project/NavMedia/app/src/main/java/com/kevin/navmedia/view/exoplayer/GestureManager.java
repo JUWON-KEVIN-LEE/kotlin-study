@@ -45,29 +45,31 @@ public class GestureManager {
 
         this.screen = screen;
         accessDisplayMetrics(this.screen);
+
+        // setYDisplayRange(0);
     }
 
     private void accessDisplayMetrics(DisplayMetrics screen) {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         manager.getDefaultDisplay().getMetrics(screen);
-
-        if(yDisplayRange == 0) setYDisplayRange(screen.widthPixels, screen.heightPixels);
     }
 
-    private int dpToPixel(int dp) {
+    private int calculateYDisplayRange(int dp) {
+        // dp to pixel
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, screen);
     }
 
-    private void setYDisplayRange(int widthPixels, int heightPixels) {
-        yDisplayRange = Math.min(dpToPixel(playerViewDP), Math.min(widthPixels, heightPixels));
+    private int calculateYDisplayRange(int widthPixels, int heightPixels) {
+        return Math.min(widthPixels, heightPixels);
     }
 
     private void setYDisplayRange(@OnOrientationChangedListener.OrientationType int orientation) {
         switch (orientation) {
             case PORTRAIT:
-                yDisplayRange = dpToPixel(240);
+                yDisplayRange = calculateYDisplayRange(playerViewDP);
                 break;
             case LANDSCAPE:
+                yDisplayRange = calculateYDisplayRange(screen.widthPixels, screen.heightPixels);
                 break;
         }
     }
