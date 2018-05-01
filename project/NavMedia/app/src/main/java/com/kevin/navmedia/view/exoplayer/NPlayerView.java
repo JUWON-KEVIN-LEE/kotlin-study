@@ -655,7 +655,7 @@ public class NPlayerView extends FrameLayout implements GestureListener {
     private GestureManager gestureManager;
     private boolean wasActionMove;
 
-    public void setGestureManager(GestureManager gestureManager) {
+    public void setGestureManager(@NonNull GestureManager gestureManager) {
         this.gestureManager = gestureManager;
     }
 
@@ -858,6 +858,14 @@ public class NPlayerView extends FrameLayout implements GestureListener {
                 || keyCode == KeyEvent.KEYCODE_DPAD_LEFT
                 || keyCode == KeyEvent.KEYCODE_DPAD_UP_LEFT
                 || keyCode == KeyEvent.KEYCODE_DPAD_CENTER;
+    }
+
+    public void portrait() {
+        controller.changeOrientation(OnOrientationChangedListener.PORTRAIT);
+    }
+
+    public void landscape() {
+        controller.changeOrientation(OnOrientationChangedListener.LANDSCAPE);
     }
 
     public void changeSystemUIPortrait() {

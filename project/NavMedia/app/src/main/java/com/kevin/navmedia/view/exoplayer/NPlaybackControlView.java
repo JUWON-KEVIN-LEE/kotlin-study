@@ -421,7 +421,7 @@ public class NPlaybackControlView extends FrameLayout {
         onOrientationChangedListener = listener;
     }
 
-    private synchronized void changeOrientation(@OrientationType int orientation) {
+    public synchronized void changeOrientation(@OrientationType int orientation) {
         Context context = getContext();
 
         if(!(context instanceof Activity)) return;

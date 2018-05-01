@@ -36,6 +36,7 @@ public class GestureManager {
 
     private GestureListener gestureListener;
 
+    // context <= VideoActivity
     public GestureManager(Context context, AudioManager audioManager, DisplayMetrics screen) {
         this.context = context;
         this.audioManager = audioManager;
@@ -63,7 +64,7 @@ public class GestureManager {
         return Math.min(widthPixels, heightPixels);
     }
 
-    private void setYDisplayRange(@OnOrientationChangedListener.OrientationType int orientation) {
+    public void setYDisplayRange(@OnOrientationChangedListener.OrientationType int orientation) {
         switch (orientation) {
             case PORTRAIT:
                 yDisplayRange = calculateYDisplayRange(playerViewDP);

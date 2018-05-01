@@ -117,8 +117,63 @@ class MediaSourceFactory constructor(private val context: Context) {
 
 ### Fullscreen
 
-```kotlin
+```java
+// scenario 0. 유저가 전체화면 버튼 클릭시
+// playback control view
+private synchronized void changeOrientation(@OrientationType int orientation) {
+        Context context = getContext();
 
+        if(!(context instanceof Activity)) return;
+
+        if(onOrientationChangedListener == null) return;
+
+        switch (orientation) {
+            case LANDSCAPE:
+                setPortrait(false);
+            	/*
+                public void setPortrait(boolean portrait) {
+                    this.portrait = portrait;
+                }
+            	*/
+                changeUI(false);
+                /*
+                private void changeUI(boolean portrait) {
+                    if(portrait) {
+                        enterFullScreenButton.setVisibility(View.VISIBLE);
+                        exitFullScreenButton.setVisibility(View.GONE);
+                        lockButton.setVisibility(View.GONE);
+                        videoListUp.setVisibility(View.GONE);
+
+                        portraitView.setVisibility(View.VISIBLE);
+                        landscapeView.setVisibility(View.GONE);
+                    } else {
+                        enterFullScreenButton.setVisibility(View.GONE);
+                        exitFullScreenButton.setVisibility(View.VISIBLE);
+                        lockButton.setVisibility(View.VISIBLE);
+                        videoListUp.setVisibility(View.VISIBLE);
+
+                        portraitView.setVisibility(View.GONE);
+                        landscapeView.setVisibility(View.VISIBLE);
+                    }
+                }
+            	*/
+                ((Activity)context)
+            .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                break;
+            case PORTRAIT:
+                setPortrait(true);
+                changeUI(true);
+                ((Activity)context)
+            .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
+            default:
+                break;
+        }
+
+        onOrientationChangedListener.onOrientaionChanged(orientation);
+    }
+
+// Scenario 1. Sensor 를 이용해서 Orientation 을 변경했을 시
 ```
 
 <br>
