@@ -195,7 +195,6 @@ public class NPlayerView extends FrameLayout implements GestureListener, OnOrien
         View controllerPlaceholder = findViewById(R.id.exo_controller_placeholder);
         if (customController != null) {
             this.controller = customController;
-            controller.setOnOrientationChangedListener(this);
         } else if (controllerPlaceholder != null) {
             // Propagate attrs as playbackAttrs so that PlayerControlView's custom attributes are
             // transferred, but standard FrameLayout attributes (e.g. background) are not.
@@ -208,12 +207,15 @@ public class NPlayerView extends FrameLayout implements GestureListener, OnOrien
         } else {
             this.controller = null;
         }
+
         this.controllerShowTimeoutMs = controller != null ? controllerShowTimeoutMs : 0;
         this.controllerHideOnTouch = controllerHideOnTouch;
         this.controllerAutoShow = controllerAutoShow;
         this.controllerHideDuringAds = controllerHideDuringAds;
         this.useController = useController && controller != null;
         hideController();
+
+        controller.setOnOrientationChangedListener(this);
     }
 
     public boolean isPortrait() { return controller != null && controller.isPortrait(); }

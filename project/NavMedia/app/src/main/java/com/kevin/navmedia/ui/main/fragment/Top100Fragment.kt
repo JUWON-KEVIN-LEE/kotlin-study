@@ -3,7 +3,6 @@ package com.kevin.navmedia.ui.main.fragment
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,7 +13,6 @@ import android.view.ViewGroup
 import com.kevin.navmedia.R
 import com.kevin.navmedia.data.entity.Video
 import com.kevin.navmedia.databinding.FragmentTop100Binding
-import com.kevin.navmedia.ui.main.TopViewModel
 import com.kevin.navmedia.ui.main.adapter.TopRecyclerViewAdapter
 import javax.inject.Inject
 
@@ -35,8 +33,7 @@ class Top100Fragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory)
-                                    .get(TopViewModel::class.java)
+        // viewModel = ViewModelProviders.of(this, viewModelFactory).get(TopViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +52,7 @@ class Top100Fragment : Fragment() {
                 Video(id = "T01",
                         thumbnailUrl = "https://i.ytimg.com/vi/aqz-KE-bpKQ/maxresdefault.jpg",
                         videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                        time = 10000L,
+                        time = "12:43",
                         title = "Big Buck Bunny",
                         playCount = 183421,
                         loveCount = 496,
@@ -67,7 +64,7 @@ class Top100Fragment : Fragment() {
                 Video(id = "T02",
                         thumbnailUrl = "http://payload190.cargocollective.com/1/12/404388/6105939/ed_title.jpg",
                         videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                        time = 10000L,
+                        time = "3:55",
                         title = "Elephant Dream",
                         playCount = 12345,
                         loveCount = 5192,
@@ -79,7 +76,7 @@ class Top100Fragment : Fragment() {
                 Video(id = "T01",
                         thumbnailUrl = "https://i.ytimg.com/vi/aqz-KE-bpKQ/maxresdefault.jpg",
                         videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                        time = 10000L,
+                        time = "2:12",
                         title = "Big Buck Bunny",
                         playCount = 183421,
                         loveCount = 496,
@@ -91,7 +88,7 @@ class Top100Fragment : Fragment() {
                 Video(id = "T02",
                         thumbnailUrl = "http://payload190.cargocollective.com/1/12/404388/6105939/ed_title.jpg",
                         videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                        time = 10000L,
+                        time = "9:10",
                         title = "Elephant Dream",
                         playCount = 12345,
                         loveCount = 5192,
@@ -103,7 +100,7 @@ class Top100Fragment : Fragment() {
                 Video(id = "T01",
                         thumbnailUrl = "https://i.ytimg.com/vi/aqz-KE-bpKQ/maxresdefault.jpg",
                         videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-                        time = 10000L,
+                        time = "4:41",
                         title = "Big Buck Bunny",
                         playCount = 183421,
                         loveCount = 496,
@@ -115,7 +112,7 @@ class Top100Fragment : Fragment() {
                 Video(id = "T02",
                         thumbnailUrl = "http://payload190.cargocollective.com/1/12/404388/6105939/ed_title.jpg",
                         videoUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                        time = 10000L,
+                        time = "6:30",
                         title = "Elephant Dream",
                         playCount = 12345,
                         loveCount = 5192,

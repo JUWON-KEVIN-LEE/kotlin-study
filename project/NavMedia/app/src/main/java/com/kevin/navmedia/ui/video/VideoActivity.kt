@@ -22,6 +22,7 @@ class VideoActivity : AppCompatActivity() {
 
     private val mediaSourceFactory: MediaSourceFactory = MediaSourceFactory(NMediaApplication.context())
 
+    // TEST
     private val uriString: String = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
 
     private lateinit var player: SimpleExoPlayer
@@ -33,12 +34,15 @@ class VideoActivity : AppCompatActivity() {
     private var mResumePosition: Long = 0
     */
 
+    private lateinit var url : String
+
     private lateinit var gestureManager: GestureManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityVideoBinding? = DataBindingUtil.setContentView(this, R.layout.activity_video)
-        
+
+        intent.getStringExtra("url")?.let { url = it }
         /*
         val viewModel = ViewModelProviders.of(this).get(VideoViewModel::class.java)
 
@@ -103,12 +107,12 @@ class VideoActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if(Util.SDK_INT > 23) initPlayer(uriString)
+        if(Util.SDK_INT > 23) initPlayer(url)
     }
 
     override fun onResume() {
         super.onResume()
-        if(Util.SDK_INT <= 23) initPlayer(uriString)
+        if(Util.SDK_INT <= 23) initPlayer(url)
     }
 
     override fun onPause() {

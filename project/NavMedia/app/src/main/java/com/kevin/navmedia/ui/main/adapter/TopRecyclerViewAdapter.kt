@@ -1,5 +1,6 @@
 package com.kevin.navmedia.ui.main.adapter
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -12,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.kevin.navmedia.R
 import com.kevin.navmedia.data.entity.Video
 import com.kevin.navmedia.databinding.ItemTop100Binding
+import com.kevin.navmedia.ui.video.VideoActivity
 import kotlinx.android.synthetic.main.item_top100.view.*
 
 /**
@@ -32,7 +34,7 @@ class TopRecyclerViewAdapter constructor(private val videoList : List<Video>): R
                         .apply(RequestOptions.centerCropTransform())
                         .into(thumbnail)
 
-                time.text = it.time.toString()
+                time.text = it.time
                 title.text = it.title
                 rank.text = it.rank.toString()
                 rankVariance(rankVar, it.rankVar)
@@ -40,6 +42,8 @@ class TopRecyclerViewAdapter constructor(private val videoList : List<Video>): R
                 program.text = it.program
                 watchers.text = counting(count = it.playCount)
                 lovers.text = counting(count = it.loveCount)
+
+                url = it.videoUrl
             }
         }
     }
@@ -52,7 +56,7 @@ class TopRecyclerViewAdapter constructor(private val videoList : List<Video>): R
             }
             rankVar < 0 -> {
                 rankVarView.setTextColor(ContextCompat.getColor(rankVarView.context, R.color.RoyalBlue))
-                rankVarView.text = rankVar.toString().substring(1)
+                rankVarView.text = Math.abs(rankVar).toString()
             }
             else -> {
                 rankVarView.setTextColor(ContextCompat.getColor(rankVarView.context, R.color.LightSlateGray))
@@ -96,4 +100,14 @@ class TopViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     val program : TextView  = itemView.program
     val watchers : TextView = itemView.watchers
     val lovers : TextView = itemView.lovers
+
+    lateinit var url : String
+
+    init {
+        itemView.setOnClickListener {
+            val intent = Intent(it.context, VideoActivity::class.java)
+            intent.putExtra("url", url)
+            it.context.startActivity(intent)
+        }
+    }
 }

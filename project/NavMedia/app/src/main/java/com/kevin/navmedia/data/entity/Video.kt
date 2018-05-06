@@ -6,7 +6,7 @@ package com.kevin.navmedia.data.entity
 data class Video constructor( val id : String,
                   val thumbnailUrl : String,
                   val videoUrl : String,
-                  val time : Long,
+                  val time : String,
                   val title : String,
                   val playCount : Int,
                   val loveCount : Int,
