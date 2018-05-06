@@ -6,7 +6,7 @@ import android.content.Context
 /**
  * Created by quf93 on 2018-04-19.
  */
-class App : Application() {
+class NMediaApplication : Application() {
 
     /*
     val component: AppComponent by lazy {
@@ -15,21 +15,22 @@ class App : Application() {
     }
     */
 
+
     init {
         instance = this
     }
 
     companion object {
-        private lateinit var instance: App
+        private lateinit var instance: NMediaApplication
 
-        fun context() : Context = instance!!.applicationContext
+        fun context() : Context = instance.applicationContext
     }
 
 
     override fun onCreate() {
         super.onCreate()
 
-        val context: Context = App.context()
+        val context: Context = NMediaApplication.context()
     }
 
 

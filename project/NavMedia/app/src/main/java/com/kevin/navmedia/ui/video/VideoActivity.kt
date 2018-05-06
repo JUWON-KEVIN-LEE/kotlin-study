@@ -2,6 +2,7 @@ package com.kevin.navmedia.ui.video
 
 import android.content.Context
 import android.content.res.Configuration
+import android.databinding.DataBindingUtil
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
@@ -11,32 +12,41 @@ import android.view.View
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.util.Util
-import com.kevin.navmedia.App
+import com.kevin.navmedia.NMediaApplication
 import com.kevin.navmedia.R
+import com.kevin.navmedia.databinding.ActivityVideoBinding
 import com.kevin.navmedia.view.exoplayer.GestureManager
-import com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.LANDSCAPE
-import com.kevin.navmedia.view.exoplayer.NPlaybackControlView.OnOrientationChangedListener.PORTRAIT
 import kotlinx.android.synthetic.main.activity_video.*
 
 class VideoActivity : AppCompatActivity() {
 
-    private val mediaSourceFactory: MediaSourceFactory = MediaSourceFactory(App.context())
+    private val mediaSourceFactory: MediaSourceFactory = MediaSourceFactory(NMediaApplication.context())
 
     private val uriString: String = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
 
     private lateinit var player: SimpleExoPlayer
 
     private var autoPlay: Boolean = true
+
+    /*
     private var mResumeWindow: Int = 0
     private var mResumePosition: Long = 0
+    */
 
     private lateinit var gestureManager: GestureManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video)
+        val binding: ActivityVideoBinding? = DataBindingUtil.setContentView(this, R.layout.activity_video)
+        
+        /*
+        val viewModel = ViewModelProviders.of(this).get(VideoViewModel::class.java)
 
-        initView()
+        binding.let {
+            it!!.viewModel = viewModel
+        }
+        */
+
         initGestureManager()
     }
 
@@ -50,34 +60,17 @@ class VideoActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        // TODO
-        if(newConfig?.orientation == Configuration.ORIENTATION_PORTRAIT) {
 
-        } else if(newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-        }
-    }
-
-    private fun initView() {
-        playerView.isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        playerView.setOnOrientationChangedListener {
-            when(it) {
-                LANDSCAPE -> landscape()
-                PORTRAIT -> portrait()
+        when(newConfig?.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> {
+                others.visibility = View.VISIBLE
+                gestureManager.measureYDisplay(Configuration.ORIENTATION_PORTRAIT)
+            }
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                others.visibility = View.GONE
+                gestureManager.measureYDisplay(Configuration.ORIENTATION_LANDSCAPE)
             }
         }
-    }
-
-    private fun portrait() {
-        // window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        playerView.changeSystemUIPortrait()
-        others.visibility = View.VISIBLE
-    }
-
-    private fun landscape() {
-        // window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        playerView.changeSystemUILandscape()
-        others.visibility = View.GONE
     }
 
     private fun initPlayer(uriString: String) {
@@ -87,7 +80,7 @@ class VideoActivity : AppCompatActivity() {
             val type = Util.inferContentType(uri)
             val mediaSource = mediaSourceFactory.buildMediaSource(uri, type)
 
-            player = ExoPlayerFactory.newSimpleInstance(this, mediaSourceFactory.getTrackSelector())
+            player = ExoPlayerFactory.newSimpleInstance(this, mediaSourceFactory.trackSelector)
 
             playerView.requestFocus()
 
@@ -95,14 +88,17 @@ class VideoActivity : AppCompatActivity() {
             player.playWhenReady = autoPlay
             player.prepare(mediaSource)
 
+
+        } catch (e: IllegalStateException) {
+            // Unsupported type exception
         } catch (e: Exception) {
             // TODO Error Handling
         }
     }
 
     private fun releasePlayer() {
-        player.release()
         autoPlay = player.playWhenReady
+        player.release()
     }
 
     override fun onStart() {

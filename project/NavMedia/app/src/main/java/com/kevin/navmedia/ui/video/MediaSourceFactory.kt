@@ -24,7 +24,7 @@ import com.google.android.exoplayer2.util.Util
 class MediaSourceFactory constructor(private val context: Context) {
 
     private val dataSourceFactory: DataSource.Factory
-    private val trackSelector: DefaultTrackSelector
+    val trackSelector: DefaultTrackSelector
 
     init {
         dataSourceFactory = buildDataSourceFactory(true)
@@ -32,8 +32,6 @@ class MediaSourceFactory constructor(private val context: Context) {
         val adaptiveTrackSelectionFactory = AdaptiveTrackSelection.Factory(BANDWIDTH_METER)
         trackSelector = DefaultTrackSelector(adaptiveTrackSelectionFactory)
     }
-
-    fun getTrackSelector(): DefaultTrackSelector = trackSelector
 
     /**
      * Return DefaultDataSourceFactory
@@ -73,7 +71,7 @@ class MediaSourceFactory constructor(private val context: Context) {
             C.TYPE_OTHER -> ExtractorMediaSource
                     .Factory(dataSourceFactory)
                     .createMediaSource(uri)
-            else -> throw IllegalStateException("Unsupprted Type : " + type)
+            else -> throw IllegalStateException("Error : Unsupported Type " + type)
         }
     }
 

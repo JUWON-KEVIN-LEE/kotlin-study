@@ -35,8 +35,7 @@
             android:layout_weight="1.5"
             android:background="@color/CadetBlue"
             android:orientation="vertical"
-            android:visibility="@{viewModel.othersVis}">
-
+            android:visibility="@{viewModel.othersVisibility}">
         </LinearLayout>
     </LinearLayout>
 </layout>

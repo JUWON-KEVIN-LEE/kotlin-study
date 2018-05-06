@@ -11,16 +11,17 @@ import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ControlDispatcher;
+import com.google.android.exoplayer2.DefaultControlDispatcher;
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import com.google.android.exoplayer2.PlaybackPreparer;
 import com.google.android.exoplayer2.Player;
@@ -117,7 +118,7 @@ public class NPlaybackControlView extends FrameLayout {
     private final String repeatAllButtonContentDescription;
 
     private Player player;
-    private com.google.android.exoplayer2.ControlDispatcher controlDispatcher;
+    private ControlDispatcher controlDispatcher;
     private PlayerControlView.VisibilityListener visibilityListener;
     private @Nullable
     PlaybackPreparer playbackPreparer;
@@ -162,12 +163,13 @@ public class NPlaybackControlView extends FrameLayout {
     private final View exitFullScreenButton;
     private final View backButton;
     private final View lockButton;
-    private final View bandwidthMeterSelector;
+    private final View qualitySelector;
     private final View errorWrapper;
     private final View retryButton;
     private final View videoListUp;
     private final View portraitView;
     private final View landscapeView;
+    private final View controlView;
 
     public NPlaybackControlView(Context context) {
         this(context, null);
@@ -219,7 +221,7 @@ public class NPlaybackControlView extends FrameLayout {
         extraAdGroupTimesMs = new long[0];
         extraPlayedAdGroups = new boolean[0];
         componentListener = new NPlaybackControlView.ComponentListener();
-        controlDispatcher = new com.google.android.exoplayer2.DefaultControlDispatcher();
+        controlDispatcher = new DefaultControlDispatcher();
 
         LayoutInflater.from(context).inflate(controllerLayoutId, this);
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
@@ -294,9 +296,9 @@ public class NPlaybackControlView extends FrameLayout {
             lockButton.setOnClickListener(componentListener);
         }
 
-        bandwidthMeterSelector = findViewById(R.id.bandwidth);
-        if(bandwidthMeterSelector != null) {
-            bandwidthMeterSelector.setOnClickListener(componentListener);
+        qualitySelector = findViewById(R.id.quality);
+        if(qualitySelector != null) {
+            qualitySelector.setOnClickListener(componentListener);
         }
 
         errorWrapper = findViewById(R.id.error_wrapper);
@@ -312,84 +314,24 @@ public class NPlaybackControlView extends FrameLayout {
 
         portraitView = findViewById(R.id.portrait);
         landscapeView = findViewById(R.id.landscape);
+
+        controlView = findViewById(R.id.control_wrapper);
+        if(controlView != null) {
+            // controlView.setOnTouchListener();
+        }
     }
 
-    private float initX = -1f;
-    private float initY = -1f;
-
-    private float touchX = -1f;
-    private float touchY = -1f;
-
-    private int yDisplayRange = 0;
-
-    private DisplayMetrics screen;
+    // from here
     private GestureManager gestureManager;
 
     public void setGestureManager(GestureManager gestureManager) {
         this.gestureManager = gestureManager;
-
-        this.yDisplayRange = gestureManager.getYDisplayRange();
-        this.screen = gestureManager.getScreen();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(gestureManager == null) return false;
-
-        float x_var;
-        float y_var;
-
-        if(touchX != -1 && touchY != -1) {
-            x_var = event.getRawX() - touchX;
-            y_var = event.getRawY() - touchY;
-        } else {
-            x_var = 0f;
-            y_var = 0f;
-        }
-
-        float coef = Math.abs(y_var / x_var);
-
-        int action = event.getAction();
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                touchX = initX = event.getRawX();
-                touchY = initY = event.getRawY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if(coef > 2) {
-                    if(Math.abs(y_var / yDisplayRange) < 0.01) return false;
-
-                    touchX = event.getRawX();
-                    touchY = event.getRawY();
-
-                    // Change volume or brightness
-                    if((int)initX > (screen.widthPixels / 2)) {
-                        gestureManager.setStreamVolume(y_var / yDisplayRange);
-                        showVolumeUI(gestureManager.getCurrentVolume(),
-                                gestureManager.isMute());
-                        return true;
-                    } else {
-
-
-                    }
-                } else {
-                    // Do ff or rw
-                    gestureManager.seekTo(11);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                touchX = -1f;
-                touchY = -1f;
-                break;
-        }
-
-        return true;
     }
 
     private void showVolumeUI(int volume, boolean isMute) {
-
+        Log.d("JUWONLEE", "show volume ui");
     }
+    // to here
 
     public boolean isPortrait() {return portrait;}
 
@@ -421,6 +363,7 @@ public class NPlaybackControlView extends FrameLayout {
         onOrientationChangedListener = listener;
     }
 
+    // TODO 디바이스 기울기에 따른 orientation 변화
     public synchronized void changeOrientation(@OrientationType int orientation) {
         Context context = getContext();
 
@@ -431,12 +374,12 @@ public class NPlaybackControlView extends FrameLayout {
         switch (orientation) {
             case LANDSCAPE:
                 setPortrait(false);
-                changeUI(false);
+                changeUI(isPortrait());
                 ((Activity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 break;
             case PORTRAIT:
                 setPortrait(true);
-                changeUI(true);
+                changeUI(isPortrait());
                 ((Activity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 break;
             default:
@@ -534,16 +477,16 @@ public class NPlaybackControlView extends FrameLayout {
     }
 
     /**
-     * Sets the {@link com.google.android.exoplayer2.ControlDispatcher}.
+     * Sets the {@link ControlDispatcher}.
      *
-     * @param controlDispatcher The {@link com.google.android.exoplayer2.ControlDispatcher}, or null
-     *     to use {@link com.google.android.exoplayer2.DefaultControlDispatcher}.
+     * @param controlDispatcher The {@link ControlDispatcher}, or null
+     *     to use {@link DefaultControlDispatcher}.
      */
     public void setControlDispatcher(
-            @Nullable com.google.android.exoplayer2.ControlDispatcher controlDispatcher) {
+            @Nullable ControlDispatcher controlDispatcher) {
         this.controlDispatcher =
                 controlDispatcher == null
-                        ? new com.google.android.exoplayer2.DefaultControlDispatcher()
+                        ? new DefaultControlDispatcher()
                         : controlDispatcher;
     }
 

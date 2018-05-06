@@ -66,13 +66,14 @@
             android:id="@+id/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/indicator"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/detail"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/double_space"
             android:text="@string/splash_start"
             android:textColor="@color/Active"
             android:textSize="@dimen/detail_text_size"
             android:textStyle="bold"
-            android:paddingTop="@dimen/double_space"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 </LinearLayout>

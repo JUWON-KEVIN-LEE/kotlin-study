@@ -10,7 +10,7 @@
 
     <!-- item_top100 -->
     <color name="colorProgram">#1E90FF</color>
-    <color name="colorTime">#64000000</color>
+    <color name="colorTime">#50000000</color>
 
     <!-- exo player -->
     <color name="default_background">#a0000000</color>

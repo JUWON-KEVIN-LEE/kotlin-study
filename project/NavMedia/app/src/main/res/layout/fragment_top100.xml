@@ -1,15 +1,23 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.kevin.navmedia.ui.main.fragment.Top100Fragment">
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.kevin.navmedia.ui.main.TopViewModel" />
+    </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_top100">
+        tools:context="com.kevin.navmedia.ui.main.fragment.Top100Fragment">
 
-    </android.support.v7.widget.RecyclerView>
-</FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_top100">
+
+        </android.support.v7.widget.RecyclerView>
+    </FrameLayout>
+</layout>

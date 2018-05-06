@@ -2,7 +2,6 @@ package com.kevin.navmedia.ui.main.adapter
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.item_page.view.*
 /**
  * Created by quf93 on 2018-04-14.
  */
-class ViewPagerAdapter(val context: Context, var items: List<Int>) : PagerAdapter() {
+class ViewPagerAdapter(val context: Context, private var items: List<Int>) : PagerAdapter() {
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view == `object`
@@ -24,7 +23,6 @@ class ViewPagerAdapter(val context: Context, var items: List<Int>) : PagerAdapte
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        Log.d("JUWONLEE", "instantiateItem: " + position)
         val view = LayoutInflater.from(context).inflate(R.layout.item_page, container, false)
 
         view.image.setImageResource(items[position])

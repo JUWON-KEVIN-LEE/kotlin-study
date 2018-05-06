@@ -12,11 +12,11 @@ import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
-    private val images = listOf(
-            R.drawable.splash_0,
-            R.drawable.splash_1,
-            R.drawable.splash_2,
-            R.drawable.splash_3
+    private val colors = listOf(
+            R.color.LightGreen,
+            R.color.LightYellow,
+            R.color.LightSalmon,
+            R.color.LightCyan
     )
 
     private val summaries = listOf(
@@ -39,7 +39,7 @@ class SplashActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        viewPager.adapter = ViewPagerAdapter(this, images)
+        viewPager.adapter = ViewPagerAdapter(this, colors)
         viewPager.addOnPageChangeListener(this)
         indicator.setViewPager(viewPager)
 

@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">NavMedia</string>
 
+    <string name="naver_tv">NAVER TV</string>
+
+    <string name="top">TOP100</string>
+    <string name="feed">피드</string>
+    <string name="live">라이브</string>
+
     <!-- Splash Activity -->
     <string name="splash_title_first">원하는 동영상을 쉽게</string>
     <string name="splash_title_second">다양한 고퀄리티 콘텐츠</string>

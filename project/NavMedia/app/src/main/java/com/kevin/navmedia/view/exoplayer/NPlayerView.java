@@ -52,7 +52,7 @@ import java.util.List;
  * Created by quf93 on 2018-04-27.
  */
 
-public class NPlayerView extends FrameLayout implements GestureListener {
+public class NPlayerView extends FrameLayout implements GestureListener, OnOrientationChangedListener {
     private static final int SURFACE_TYPE_NONE = 0;
     private static final int SURFACE_TYPE_SURFACE_VIEW = 1;
     private static final int SURFACE_TYPE_TEXTURE_VIEW = 2;
@@ -195,6 +195,7 @@ public class NPlayerView extends FrameLayout implements GestureListener {
         View controllerPlaceholder = findViewById(R.id.exo_controller_placeholder);
         if (customController != null) {
             this.controller = customController;
+            controller.setOnOrientationChangedListener(this);
         } else if (controllerPlaceholder != null) {
             // Propagate attrs as playbackAttrs so that PlayerControlView's custom attributes are
             // transferred, but standard FrameLayout attributes (e.g. background) are not.
@@ -220,12 +221,6 @@ public class NPlayerView extends FrameLayout implements GestureListener {
     public void setPortrait(boolean portrait) {
         if(controller != null) {
             controller.setPortrait(portrait);
-        }
-    }
-
-    public void setOnOrientationChangedListener(OnOrientationChangedListener listener) {
-        if(controller != null) {
-            controller.setOnOrientationChangedListener(listener);
         }
     }
 
@@ -657,6 +652,9 @@ public class NPlayerView extends FrameLayout implements GestureListener {
 
     public void setGestureManager(@NonNull GestureManager gestureManager) {
         this.gestureManager = gestureManager;
+        gestureManager.setGestureListener(this);
+
+        controller.setGestureManager(gestureManager);
     }
 
     @Override
@@ -665,22 +663,10 @@ public class NPlayerView extends FrameLayout implements GestureListener {
             return false;
         }
 
-        int action = ev.getAction();
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                wasActionMove = false;
-                return controller.onTouchEvent(ev);
-            case MotionEvent.ACTION_MOVE:
-                wasActionMove = true;
-                return controller.onTouchEvent(ev);
-            case MotionEvent.ACTION_UP:
-                if (!controller.isVisible() && !wasActionMove) {
-                    maybeShowController(true);
-                } else if (controllerHideOnTouch) {
-                    controller.hide();
-                }
-                return true;
+        if (!controller.isVisible() && !wasActionMove) {
+            maybeShowController(true);
+        } else if (controllerHideOnTouch) {
+            controller.hide();
         }
 
         return true;
@@ -860,14 +846,6 @@ public class NPlayerView extends FrameLayout implements GestureListener {
                 || keyCode == KeyEvent.KEYCODE_DPAD_CENTER;
     }
 
-    public void portrait() {
-        controller.changeOrientation(OnOrientationChangedListener.PORTRAIT);
-    }
-
-    public void landscape() {
-        controller.changeOrientation(OnOrientationChangedListener.LANDSCAPE);
-    }
-
     public void changeSystemUIPortrait() {
         setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
     }
@@ -891,7 +869,17 @@ public class NPlayerView extends FrameLayout implements GestureListener {
 
     @Override
     public void seekTo(long value) {
+        // TODO
 
+    }
+
+    @Override
+    public void onOrientaionChanged(int orientation) {
+        if(orientation == PORTRAIT) changeSystemUIPortrait();
+        else if(orientation == LANDSCAPE) changeSystemUILandscape();
+        else if(orientation == UNKNOWN) {
+            // error message
+        }
     }
 
     private final class ComponentListener extends Player.DefaultEventListener

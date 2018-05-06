@@ -106,6 +106,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +119,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:visibility="invisible"
+            android:layout_gravity="bottom"
             app:srcCompat="@color/vol_br_control" />
 
         <ImageView
@@ -124,6 +127,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="invisible"
+            android:layout_gravity="bottom"
             app:srcCompat="@color/vol_br_control" />
     </LinearLayout>
 
