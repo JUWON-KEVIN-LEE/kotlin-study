@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.item_top100.view.*
  */
 class TopRecyclerViewAdapter constructor(private val videoList : List<Video>): RecyclerView.Adapter<TopViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopViewHolder = TopViewHolder(parent)
 
     override fun getItemCount(): Int = videoList.size
