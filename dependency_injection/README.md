@@ -2,25 +2,9 @@
 
 ### 0. 
 
-Dependency Injection
+**Dependency Injection ?**
 
-**What is Dependency Injection ?**
-
-Traditionally, we create the instance of dependent class object and do the required operations. 
-
-When applying Dependency Injection, the objects are given their dependencies at creation time by some external entity.
-
-...
-
-dependencies are injected into objects.
-
-
-
-It is built upon the concept of **Inversion of Control** 
-
-**what is IoC?** 
-
-https://stackoverflow.com/questions/3058/what-is-inversion-of-control#comment4952749_3140
+" 프로그래밍에서 구성요소간의 의존 관계가 소스코드 내부가 아닌 외부의 설정파일 등을 통해 정의되게 하는 디자인 패턴 중의 하나 "
 
 
 
@@ -198,4 +182,4 @@ class TweeterModule(val user: String) {
 
 #### 출처
 
-[Fundamentals of Dependency Injection and popular libraries in Android                                ](https://android.jlelse.eu/fundamentals-of-dependency-injection-and-popular-libraries-in-android-c17cf48b5253)
+[Fundamentals of Dependency Injection and popular libraries in Android](https://android.jlelse.eu/fundamentals-of-dependency-injection-and-popular-libraries-in-android-c17cf48b5253)
